@@ -6,6 +6,15 @@
 /mob/living/simple_animal/diona
 	name = "diona nymph"
 	icon = 'icons/mob/monkey.dmi'
+	ru_names = list(
+		NOMINATIVE = "Нимфа",
+		GENITIVE = "Нимфы",
+		DATIVE = "Нимфе",
+		ACCUSATIVE = "Нимфу",
+		INSTRUMENTAL = "Нимфой",
+		PREPOSITIONAL = "Нимфе"
+	)
+	gender = PLURAL
 	icon_state = "nymph"
 	icon_living = "nymph"
 	icon_dead = "nymph_dead"
@@ -18,15 +27,15 @@
 
 	maxHealth = 50
 	health = 50
-	voice_name = "diona nymph"
-	speak_emote = list("chirrups")
-	emote_hear = list("chirrups")
-	emote_see = list("chirrups")
+	voice_name = "нимфа"
+	speak_emote = list("чирикает", "стрекочет", "щебетает")
+	emote_hear = list("свистит", "трещит")
+	emote_see = list("шевелит усиками", "машет хвостиком")
 	tts_seed = "Priest"
 
-	response_help  = "pets"
-	response_disarm = "pushes"
-	response_harm   = "kicks"
+	response_help  = "гладит"
+	response_disarm = "толкает"
+	response_harm   = "пинает"
 
 	melee_damage_lower = 1
 	melee_damage_upper = 1
@@ -60,7 +69,7 @@
 	)
 
 /datum/action/innate/diona/merge
-	name = "Merge with gestalt"
+	name = "Слиться с Гештальтом"
 	icon_icon = 'icons/mob/human_races/r_diona.dmi'
 	button_icon_state = "preview"
 
@@ -69,7 +78,7 @@
 	user.merge()
 
 /datum/action/innate/diona/evolve
-	name = "Evolve"
+	name = "Развиться"
 	icon_icon = 'icons/obj/machines/cloning.dmi'
 	button_icon_state = "pod_cloning"
 
@@ -78,7 +87,7 @@
 	user.evolve()
 
 /datum/action/innate/diona/steal_blood
-	name = "Steal blood"
+	name = "Украсть кровь"
 	icon_icon = 'icons/goonstation/objects/iv.dmi'
 	button_icon_state = "bloodbag"
 
@@ -98,7 +107,7 @@
 
 /mob/living/simple_animal/diona/OnUnarmedAttack(atom/A)
 	if(isdiona(A) && (src in A.contents)) //can't attack your gestalt
-		visible_message("[src] wiggles around a bit.")
+		visible_message("[src] слегка вихляется.")
 	else
 		..()
 
@@ -175,18 +184,18 @@
 		choices += H
 
 	if(!choices.len)
-		to_chat(src, "<span class='warning'>No suitable diona nearby.</span>")
+		balloon_alert(src, "<span class='warning'>Рядом нет подходящей дионы!.</span>")
 		return FALSE
 
-	var/mob/living/M = input(src,"Who do you wish to merge with?") in null|choices
+	var/mob/living/M = input(src,"С кем бы вы хотели слиться?") in null|choices
 
 	if(!M || !src || !(Adjacent(M)) || stat != CONSCIOUS) //input can take a while, so re-validate
 		return FALSE
 
 	if(isdiona(M))
-		to_chat(M, "You feel your being twine with that of [src] as it merges with your biomass.")
+		to_chat(M, "Вы чувствуете, как ваше сознание сливается с [src] когда она сливается с гештальтом.")
 		M.status_flags |= PASSEMOTES
-		to_chat(src, "You feel your being twine with that of [M] as you merge with its biomass.")
+		to_chat(src, "Вы чувствуете, как ваша сущность сплетается с [genderize_ru(M.gender,"он","она","оно","они")], когда вы сливаетесь с его биомассой.")
 		forceMove(M)
 		throw_alert(gestalt_alert, /atom/movable/screen/alert/nymph, new_master = src) //adds a screen alert that can call resist
 		return TRUE
@@ -200,8 +209,8 @@
 	var/turf/T = get_turf(src)
 	if(!T)
 		return FALSE
-	to_chat(loc, "You feel a pang of loss as [src] splits away from your biomass.")
-	to_chat(src, "You wiggle out of the depths of [loc]'s biomass and plop to the ground.")
+	to_chat(loc, "Вы ощущаете боль утраты, когда [src] отделяется от вашей биомассы.")
+	to_chat(src, "Вы вылезаете из толщи биомассы [loc] и падаете на землю.")
 	forceMove(T)
 
 	var/hasMobs = FALSE
@@ -219,17 +228,17 @@
 		return FALSE
 
 	if(donors.len < evolve_donors)
-		to_chat(src, "<span class='warning'>You need more blood in order to ascend to a new state of consciousness...</span>")
+		balloon_alert(src, "<span class='warning'>недостаточно крови!</span>")
 		return FALSE
 
 	if(nutrition < nutrition_need)
-		to_chat(src, "<span class='warning'>You need to binge on weeds in order to have the energy to grow...</span>")
+		balloon_alert(src, "<span class='warning'>недостаточно сытости!</span>")
 		return FALSE
 
 	if(isdiona(loc) && !split()) //if it's merged with diona, needs to able to split before evolving
 		return FALSE
 
-	visible_message("<span class='danger'>[src] begins to shift and quiver, and erupts in a shower of shed bark as it splits into a tangle of nearly a dozen new dionaea.</span>","<span class='danger'>You begin to shift and quiver, feeling your awareness splinter. All at once, we consume our stored nutrients to surge with growth, splitting into a tangle of at least a dozen new dionaea. We have attained our gestalt form.</span>")
+	visible_message("<span class='danger'>[src] начинает дёргаться, дрожать и распадается на множество новых дион.</span>","<span class='danger'>Вы начинаете дёргаться и дрожать, ощущая, как рассыпается ваше сознание. В моменте мы тратим накопленные питательные вещества и начинаем разрастаться, распадаясь на клубок дюжины новых нимф. Мы обрели свой Гештальт.</span>")
 
 	var/mob/living/carbon/human/diona/adult = new(get_turf(loc))
 	adult.set_species(/datum/species/diona)
@@ -244,7 +253,7 @@
 	adult.regenerate_icons()
 
 	if(random_name)
-		adult.name = "diona ([rand(100,999)])"
+		adult.name = "диона ([rand(100,999)])"
 		adult.real_name = adult.name
 		adult.real_name = adult.dna.species.get_random_name()
 		//I hate this being here of all places but unfortunately dna is based on real_name!
@@ -263,10 +272,10 @@
 // Consumes plant matter other than weeds to evolve
 /mob/living/simple_animal/diona/proc/consume(obj/item/reagent_containers/food/snacks/grown/G)
 	if(nutrition >= nutrition_need) // Prevents griefing by overeating plant items without evolving.
-		to_chat(src, "<span class='warning'>You're too full to consume this! Perhaps it's time to grow bigger...</span>")
+		balloon_alert(src, "<span class='warning'>сытость полна!</span>")
 	else
 		if(do_after(src, 2 SECONDS, G, max_interact_count = 1))
-			visible_message("[src] ravenously consumes [G].", "You ravenously devour [G].")
+			visible_message("[src] жадно съедает [G].", "Вы с жадностью съедаете [G].")
 			playsound(loc, 'sound/items/eatfood.ogg', 30, 0, frequency = 1.5)
 			if(G.reagents.get_reagent_amount("nutriment") + G.reagents.get_reagent_amount("plantmatter") < 1)
 				adjust_nutrition(2)
@@ -284,23 +293,23 @@
 			choices += H
 
 	if(!choices.len)
-		to_chat(src, "<span class='warning'>No suitable blood donors nearby.</span>")
+		balloon_alert(src, "<span class='warning'>рядом нет подходящей жертвы!</span>")
 		return FALSE
 
-	var/mob/living/carbon/human/M = input(src,"Who do you wish to take a sample from?") in null|choices
+	var/mob/living/carbon/human/M = input(src,"Чью кровь вы хотели бы взять?") in null|choices
 
 	if(!M || !src || !(Adjacent(M)) || stat != CONSCIOUS) //input can take a while, so re-validate
 		return FALSE
 
 	if(HAS_TRAIT(M, TRAIT_NO_BLOOD))
-		to_chat(src, "<span class='warning'>That donor has no blood to take.</span>")
+		balloon_alert(src, "<span class='warning'>у жертвы нет крови!</span>")
 		return FALSE
 
 	if(donors.Find(M.real_name))
-		to_chat(src, "<span class='warning'>That donor offers you nothing new.</span>")
+		balloon_alert(src, "<span class='warning'>Вы уже пробовали эту кровь!</span>")
 		return FALSE
 
-	visible_message("<span class='danger'>[src] flicks out a feeler and neatly steals a sample of [M]'s blood.</span>","<span class='danger'>You flick out a feeler and neatly steal a sample of [M]'s blood.</span>")
+	visible_message("<span class='danger'>[src] вынимает щупики и аккуратно берет образец крови [М].</span>","<span class='danger'>Вы берёте образец крови [M] своими щупиками.</span>")
 	donors += M.real_name
 	for(var/datum/language/L in M.languages)
 		if(!(L.flags & HIVEMIND))
@@ -314,12 +323,12 @@
 		return FALSE
 
 	if(donors.len == evolve_donors)
-		to_chat(src, "<span class='noticealien'>You feel ready to move on to your next stage of growth.</span>")
+		to_chat(src, "<span class='noticealien'>Вы ощущаете готовность к переходу на следующую стадию развития.</span>")
 	else if(donors.len == awareness_donors)
 		universal_understand = 1
-		to_chat(src, "<span class='noticealien'>You feel your awareness expand, and realize you know how to understand the creatures around you.</span>")
+		to_chat(src, "<span class='noticealien'>Вы чувствуете, как ваше сознание расширяется и осознаёте, что начинаете понимать окружающих вас существ.</span>")
 	else
-		to_chat(src, "<span class='noticealien'>The blood seeps into your small form, and you draw out the echoes of memories and personality from it, working them into your budding mind.</span>")
+		to_chat(src, "<span class='noticealien'>Кровь просачивается в ваши сосуды, и вы извлекаете из неё отголоски воспоминаний и личности, встраивая их в своей зарождающийся разум.</span>")
 
 
 /mob/living/simple_animal/diona/put_in_hands(obj/item/I, force = FALSE, qdel_on_fail = FALSE, merge_stacks = TRUE, ignore_anim = TRUE, silent = FALSE)
@@ -333,6 +342,6 @@
 
 
 /mob/living/simple_animal/diona/put_in_active_hand(obj/item/I, force = FALSE, ignore_anim = TRUE)
-	to_chat(src, "<span class='warning'>You don't have any hands!</span>")
+	balloon_alert(src, "<span class='warning'>У вас нет рук!</span>")
 	return
 
