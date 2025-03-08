@@ -1,15 +1,24 @@
 //Foxxy
-/mob/living/simple_animal/pet/dog/fox
+/mob/living/simple_animal/pet/dog/fox //
 	name = "fox"
-	desc = "It's a fox. I wonder what it says?"
+	desc = "Это лиса. Интересно, как она говорит?"
+	ru_names = list(
+		NOMINATIVE = "Лиса",
+		GENITIVE = "Лисы",
+		DATIVE = "Лисе",
+		ACCUSATIVE = "Лису",
+		INSTRUMENTAL = "Лисой",
+		PREPOSITIONAL = "Лисе"
+	)
+	gender = FEMALE
 	icon_state = "fox"
 	icon_living = "fox"
 	icon_dead = "fox_dead"
 	icon_resting = "fox_rest"
-	speak = list("Ack-Ack","Ack-Ack-Ack-Ackawoooo","Geckers","Awoo","Tchoff")
-	speak_emote = list("geckers", "barks")
-	emote_hear = list("howls","barks")
-	emote_see = list("shakes its head", "shivers")
+	speak = list(" Тяф-тяф","Фыр-фыр-фр-фр-фыыр","ки-кихи-хихи!","А-у-у-у-у!","Фыр-рыр")
+	speak_emote = list("фырчит", "тяфкает")
+	emote_hear = list("воет","гавкает")
+	emote_see = list("трясёт головой", "вздрагивает")
 	tts_seed = "Barney"
 	yelp_sound = 'sound/creatures/fox_yelp.ogg' //Used on death.
 	speak_chance = 1
@@ -17,14 +26,22 @@
 	nightvision = 6
 	mobility_flags = MOBILITY_FLAGS_REST_CAPABLE_DEFAULT
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat = 3)
-	response_help = "pets"
-	response_disarm = "gently pushes aside"
-	response_harm = "kicks"
+	response_help = "гладит"
+	response_disarm = "аккуратно отодвигает в сторону"
+	response_harm = "пинает"
 	holder_type = /obj/item/holder/fox
 
 /mob/living/simple_animal/pet/dog/fox/forest
 	name = "forest fox"
 	desc = "Лесная дикая лисица. Может укусить."
+	ru_names = list(
+		NOMINATIVE = "Лесная лиса",
+		GENITIVE = "Лесной лисы",
+		DATIVE = "Лесной лисе",
+		ACCUSATIVE = "Лесную лису",
+		INSTRUMENTAL = "Лесной лисой",
+		PREPOSITIONAL = "Лесной лисе"
+	)
 	icon_state = "fox_forest"
 	icon_living = "fox_forest"
 	icon_dead = "fox_forest_dead"
@@ -46,14 +63,32 @@
 //Captain fox
 /mob/living/simple_animal/pet/dog/fox/Renault
 	name = "Renault"
-	desc = "Renault, the Captain's trustworthy fox. I wonder what it says?"
+	desc = "Ренальд, верный лис капитана. Интересно, а он как говорит?"
+	ru_names = list(
+		NOMINATIVE = "Ренальд",
+		GENITIVE = "Ренальда",
+		DATIVE = "Ренальду",
+		ACCUSATIVE = "Ренальда",
+		INSTRUMENTAL = "Ренальдом",
+		PREPOSITIONAL = "Ренальде"
+	)
+	gender = MALE
 	unique_pet = TRUE
 	gold_core_spawnable = NO_SPAWN
 
 //Syndi fox
 /mob/living/simple_animal/pet/dog/fox/Syndifox
 	name = "Syndifox"
-	desc = "Syndifox, the Syndicate's most respected mascot. I wonder what it says?"
+	desc = "Синди-Лис, самый уважаемый маскот Синдиката. Интересно, как же он говорит?"
+	ru_names = list(
+		NOMINATIVE = "Синди-Лис",
+		GENITIVE = "Синди-Лиса",
+		DATIVE = "Синди-Лису",
+		ACCUSATIVE = "Синди-Лиса",
+		INSTRUMENTAL = "Синди-Лисом",
+		PREPOSITIONAL = "Синди-Лисе"
+	)
+	gender = MALE
 	icon_state = "Syndifox"
 	icon_living = "Syndifox"
 	icon_dead = "Syndifox_dead"
@@ -79,8 +114,17 @@
 
 //Central Command Fox
 /mob/living/simple_animal/pet/dog/fox/alisa
-	name = "Алиса"
+	name = "alisa"
 	desc = "Алиса, любимый питомец любого Офицера Специальных Операций. Интересно, что она говорит?"
+	ru_names = list(
+		NOMINATIVE = "Алиса",
+		GENITIVE = "Алисы",
+		DATIVE = "Алисе",
+		ACCUSATIVE = "Алису",
+		INSTRUMENTAL = "Алисой",
+		PREPOSITIONAL = "Алисе"
+	)
+	gender = FEMALE
 	icon_state = "alisa"
 	icon_living = "alisa"
 	icon_dead = "alisa_dead"
@@ -104,11 +148,19 @@
 
 
 /mob/living/simple_animal/pet/dog/fox/fennec
-	name = "фенек"
+	name = "fennec"
 	desc = "Миниатюрная лисичка с ооочень большими ушами. Фенек, фенек, зачем тебе такие большие уши? Чтобы избегать дормитория?"
+	ru_names = list(
+		NOMINATIVE = "Фенек",
+		GENITIVE = "Фенека",
+		DATIVE = "Фенеку",
+		ACCUSATIVE = "Фенека",
+		INSTRUMENTAL = "Фенеком",
+		PREPOSITIONAL = "Фенеке"
+	)
 	icon_state = "fennec"
 	icon_living = "fennec"
 	icon_dead = "fennec_dead"
-	icon_resting = "fennec_rest"	//fennec_sit ?
+	icon_resting = "fennec_rest"
 	nightvision = 10
 	holder_type = /obj/item/holder/fennec
