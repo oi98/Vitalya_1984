@@ -184,7 +184,7 @@
 		choices += H
 
 	if(!choices.len)
-		balloon_alert(src, "<span class='warning'>Рядом нет подходящей дионы!.</span>")
+		balloon_alert(src, "<span class='warning'>Рядом нет подходящей дионы!</span>")
 		return FALSE
 
 	var/mob/living/M = input(src,"С кем бы вы хотели слиться?") in null|choices
@@ -195,7 +195,7 @@
 	if(isdiona(M))
 		to_chat(M, "Вы чувствуете, как ваше сознание сливается с [src] когда она сливается с гештальтом.")
 		M.status_flags |= PASSEMOTES
-		to_chat(src, "Вы чувствуете, как ваша сущность сплетается с [genderize_ru(M.gender,"он","она","оно","они")], когда вы сливаетесь с его биомассой.")
+		to_chat(src, "Вы чувствуете, как ваша сущность сплетается с [M], когда вы сливаетесь с его биомассой.")
 		forceMove(M)
 		throw_alert(gestalt_alert, /atom/movable/screen/alert/nymph, new_master = src) //adds a screen alert that can call resist
 		return TRUE
@@ -272,7 +272,7 @@
 // Consumes plant matter other than weeds to evolve
 /mob/living/simple_animal/diona/proc/consume(obj/item/reagent_containers/food/snacks/grown/G)
 	if(nutrition >= nutrition_need) // Prevents griefing by overeating plant items without evolving.
-		balloon_alert(src, "<span class='warning'>сытость полна!</span>")
+		balloon_alert(src, "<span class='warning'>вы сыты!</span>")
 	else
 		if(do_after(src, 2 SECONDS, G, max_interact_count = 1))
 			visible_message("[src] жадно съедает [G].", "Вы с жадностью съедаете [G].")
@@ -296,7 +296,7 @@
 		balloon_alert(src, "<span class='warning'>рядом нет подходящей жертвы!</span>")
 		return FALSE
 
-	var/mob/living/carbon/human/M = input(src,"Чью кровь вы хотели бы взять?") in null|choices
+	var/mob/living/carbon/human/M = input(src,"Выберите жертву.") in null|choices
 
 	if(!M || !src || !(Adjacent(M)) || stat != CONSCIOUS) //input can take a while, so re-validate
 		return FALSE
@@ -309,7 +309,7 @@
 		balloon_alert(src, "<span class='warning'>Вы уже пробовали эту кровь!</span>")
 		return FALSE
 
-	visible_message("<span class='danger'>[src] вынимает щупики и аккуратно берет образец крови [М].</span>","<span class='danger'>Вы берёте образец крови [M] своими щупиками.</span>")
+	visible_message("<span class='danger'>[src] вынимает щупики и берёт образец крови [M.declent_ru(GENITIVE)].</span>","<span class='danger'>Вы берёте оборазец крови [M.declent_ru(GENITIVE)] своими щупиками.</span>")
 	donors += M.real_name
 	for(var/datum/language/L in M.languages)
 		if(!(L.flags & HIVEMIND))

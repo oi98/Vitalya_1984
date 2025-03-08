@@ -194,7 +194,7 @@
 	AddElement(/datum/element/diona_internals)
 
 /datum/action/item_action/organ_action/diona_brain_evacuation
-	name = "Эвакуации"
+	name = "Эвакуация"
 	check_flags = 0
 	desc = "Покинуть тело в форме нимфы."
 
