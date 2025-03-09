@@ -1,17 +1,25 @@
 //Cat
 /mob/living/simple_animal/pet/cat
 	name = "cat"
-	desc = "Kitty!!"
+	desc = "КОТЕНЬКА!!"
+	ru_names = list(
+		NOMINATIVE = "кот",
+		GENITIVE = "кота",
+		DATIVE = "коту",
+		ACCUSATIVE = "кота",
+		INSTRUMENTAL = "котом",
+		PREPOSITIONAL = "коте"
+	)
 	icon_state = "cat2"
 	icon_living = "cat2"
 	icon_dead = "cat2_dead"
 	icon_resting = "cat2_rest"
 	var/icon_sit = "sit"
 	gender = MALE
-	speak = list("Meow!", "Esp!", "Purr!", "HSSSSS")
-	speak_emote = list("purrs", "meows")
-	emote_hear = list("meows", "mews")
-	emote_see = list("shakes its head", "shivers")
+	speak = list("Мяу!", "Мрау!", "Мурр!", "Шшшш!")
+	speak_emote = list("мурчит", "мяукает")
+	emote_hear = list("мурлычет", "мяукает")
+	emote_see = list("трясёт головой", "вздрагивает")
 	var/meow_sound = 'sound/creatures/cat_meow.ogg'	//Used in emote.
 	speak_chance = 1
 	turns_per_move = 5
@@ -21,9 +29,9 @@
 	animal_species = /mob/living/simple_animal/pet/cat
 	childtype = list(/mob/living/simple_animal/pet/cat/kitten)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat = 3)
-	response_help  = "pets"
-	response_disarm = "gently pushes aside"
-	response_harm   = "kicks"
+	response_help  = "гладит"
+	response_disarm = "аккуратно отодвигает в сторону"
+	response_harm   = "пинает"
 	gold_core_spawnable = FRIENDLY_SPAWN
 	collar_type = "cat"
 	var/turns_since_scan = 0
@@ -36,7 +44,15 @@
 
 /mob/living/simple_animal/pet/cat/floppa
 	name = "Big Floppa"
-	desc = "He looks like he is about to commit a warcrime.."
+	desc = "Похоже он собирается совершить очередное военное преступление..."
+	ru_names = list(
+		NOMINATIVE = "большой Шлёпа",
+		GENITIVE = "большого Шлёпы",
+		DATIVE = "Большому Шлёпе",
+		ACCUSATIVE = "Большого Шлёпу",
+		INSTRUMENTAL = "Большим Шлёпой",
+		PREPOSITIONAL = "Большом Шлёпе"
+	)
 	icon_state = "floppa"
 	icon_living = "floppa"
 	icon_dead = "floppa_dead"
@@ -48,7 +64,15 @@
 //RUNTIME IS ALIVE! SQUEEEEEEEE~
 /mob/living/simple_animal/pet/cat/Runtime
 	name = "Runtime"
-	desc = "GCAT"
+	desc = "Кошка Главврача станции. За ней нужен глаз да глаз, всё наровит сбежать!"
+	ru_names = list(
+		NOMINATIVE = "Рантайм",
+		GENITIVE = "Рантайма",
+		DATIVE = "Рантайму",
+		ACCUSATIVE = "Рантайма",
+		INSTRUMENTAL = "Рантаймом",
+		PREPOSITIONAL = "Рантайме"
+	)
 	icon_state = "cat"
 	icon_living = "cat"
 	icon_dead = "cat_dead"
@@ -117,7 +141,7 @@
 
 
 /mob/living/simple_animal/pet/cat/verb/sit()
-	set name = "Sit Down"
+	set name = "Сесть"
 	set category = "IC"
 
 	if(resting)
@@ -160,13 +184,13 @@
 	if(!stat && !buckled)
 		if(prob(1))
 			if(!resting)
-				custom_emote(EMOTE_VISIBLE, pick("вытягива%(ет,ют)%ся, чтобы почистить желудок.", "виля%(ет,ют)% хвостом.", "лож%(ит,ат)%ся."))
+				custom_emote(EMOTE_VISIBLE, pick("вал%(ит,ят)%ся на спинку, чтобы ему почесали живот", "виля%(ет,ют)% хвостом.", "лож%(ит,ат)%ся."))
 				set_resting(TRUE, instant = TRUE)
 		else if(prob(1))
 			sit()
 		else if(prob(1))
 			if(resting)
-				custom_emote(EMOTE_VISIBLE, pick("поднима%(ет,ют)%ся и мяука%(ет,ют)%.", "подскакива%(ет,ют)%.", "переста%(ёт,ют)% валяться."))
+				custom_emote(EMOTE_VISIBLE, pick("поднима%(ет,ют)%ся и мяука%(ет,ют)%.", "подскакива%(ет,ют)%.", "вста%(ет,ют)%."))
 				set_resting(FALSE, instant = TRUE)
 			else
 				custom_emote(EMOTE_VISIBLE, pick("вылизыва%(ет,ют)% шерсть.", "подёргива%(ет,ют)% усами.", "отряхива%(ет,ют)% шерсть."))
@@ -217,7 +241,15 @@
 
 /mob/living/simple_animal/pet/cat/kitten
 	name = "kitten"
-	desc = "D'aaawwww"
+	desc = "Какая милота!"
+	ru_names = list(
+		NOMINATIVE = "Котёнок",
+		GENITIVE = "Котёнка",
+		DATIVE = "Котёнку",
+		ACCUSATIVE = "Котёнка",
+		INSTRUMENTAL = "Котёнком",
+		PREPOSITIONAL = "Котёнке"
+	)
 	icon_state = "kitten"
 	icon_living = "kitten"
 	icon_dead = "kitten_dead"
@@ -229,12 +261,20 @@
 
 /mob/living/simple_animal/pet/cat/Syndi
 	name = "SyndiCat"
-	desc = "It's a SyndiCat droid."
+	desc = "Это дроид-СиндиКот."
+	ru_names = list(
+		NOMINATIVE = "СиндиКот",
+		GENITIVE = "СиндиКота",
+		DATIVE = "СиндиКоту",
+		ACCUSATIVE = "СиндиКота",
+		INSTRUMENTAL = "СиндиКотом",
+		PREPOSITIONAL = "СиндиКоте"
+	)
 	icon_state = "Syndicat"
 	icon_living = "Syndicat"
 	icon_dead = "Syndicat_dead"
 	icon_resting = "Syndicat_rest"
-	meow_sound = null	//Need robo-meow.
+	meow_sound = 'sound/creatures/sindicat_meow.ogg'
 	gender = FEMALE
 	faction = list("syndicate")
 	gold_core_spawnable = NO_SPAWN
@@ -257,7 +297,15 @@
 
 /mob/living/simple_animal/pet/cat/cak
 	name = "Keeki"
-	desc = "It's a cat made out of cake."
+	desc = "Это кот, слепленный из торта."
+	ru_names = list(
+		NOMINATIVE = "котортик",
+		GENITIVE = "котортика",
+		DATIVE = "котортику",
+		ACCUSATIVE = "котортика",
+		INSTRUMENTAL = "котортиком",
+		PREPOSITIONAL = "котортике"
+	)
 	icon_state = "cak"
 	icon_living = "cak"
 	icon_resting = "cak_rest"
@@ -271,9 +319,9 @@
 		/obj/item/reagent_containers/food/snacks/birthdaycakeslice = 3,
 		/obj/item/reagent_containers/food/snacks/meat/slab = 2
 	)
-	response_harm = "takes a bite out of"
+	response_harm = "откусывает кусок от"
 	attacked_sound = "sound/items/eatfood.ogg"
-	deathmessage = "loses its false life and collapses!"
+	deathmessage = "Теряет свою форму и рассыпается!"
 	death_sound = "bodyfall"
 	holder_type = /obj/item/holder/cak
 
@@ -302,18 +350,26 @@
 	if(!B || !B.brainmob || !B.brainmob.mind)
 		return
 	B.brainmob.mind.transfer_to(src)
-	to_chat(src, "<span class='big bold'>You are a cak!</span><b> You're a harmless cat/cake hybrid that everyone loves. People can take bites out of you if they're hungry, but you regenerate health \
-	so quickly that it generally doesn't matter. You're remarkably resilient to any damage besides this and it's hard for you to really die at all. You should go around and bring happiness and \
-	free cake to the station!</b>")
-	var/new_name = tgui_input_text(src, "Enter your name, or press \"Cancel\" to stick with Keeki.", "Name Change", name)
+	to_chat(src, "<span class='big bold'>Теперь вы Котортик!!</span><b> Вы безобидный гибрид кота и торта, вас все любят! Люди могут откусить от вас кусок, если проголодались, а вы можете восстанавливаете своё здоровье \
+	настолько быстро, что это вас не беспокоит. Вы удивительно устойчивы к любому урону, тем более, вам вообще трудно умереть. You should go around and bring happiness and \ Теперь идите и несите радость \
+	и тортик по станции!</b>")
+	var/new_name = tgui_input_text(src, "Введите своё новое имя, или нажмите на \"Отмена\" чтобы оставить 'Котортик'.", "Поменять имя", name)
 	if(!new_name)
 		return
-	to_chat(src, "<span class='notice'>Your name is now <b>\"[new_name]\"</b>!</span>")
+	to_chat(src, "<span class='notice'>Теперь вас зовут <b>\"[new_name]\"</b>!</span>")
 	name = new_name
 
 /mob/living/simple_animal/pet/cat/white
 	name = "white"
 	desc = "Белоснежная шерстка. Плохо различается на белой плитке, зато отлично виден в темноте!"
+	ru_names = list(
+		NOMINATIVE = "Беляш",
+		GENITIVE = "Беляша",
+		DATIVE = "Беляшу",
+		ACCUSATIVE = "Беляша",
+		INSTRUMENTAL = "Беляшом",
+		PREPOSITIONAL = "Беляше"
+	)
 	icon_state = "penny"
 	icon_living = "penny"
 	icon_dead = "penny_dead"
@@ -324,7 +380,15 @@
 
 /mob/living/simple_animal/pet/cat/birman
 	name = "birman"
-	desc = "Священная порода Бирма"
+	desc = "Кот священной породы Бирма"
+	ru_names = list(
+		NOMINATIVE = "Бирма",
+		GENITIVE = "Бирмы",
+		DATIVE = "Бирме",
+		ACCUSATIVE = "Бирму",
+		INSTRUMENTAL = "Бирмой",
+		PREPOSITIONAL = "Бирме"
+	)
 	icon_state = "crusher"
 	icon_living = "crusher"
 	icon_dead = "crusher_dead"
@@ -335,7 +399,15 @@
 
 /mob/living/simple_animal/pet/cat/spacecat
 	name = "spacecat"
-	desc = "Space Kitty!!"
+	desc = "КОСМОКОТИК!!"
+	ru_names = list(
+		NOMINATIVE = "космокот",
+		GENITIVE = "космокота",
+		DATIVE = "космокоту",
+		ACCUSATIVE = "космокота",
+		INSTRUMENTAL = "космокотом",
+		PREPOSITIONAL = "космокоте"
+	)
 	icon_state = "spacecat"
 	icon_living = "spacecat"
 	icon_dead = "spacecat_dead"
@@ -353,6 +425,14 @@
 /mob/living/simple_animal/pet/cat/fat
 	name = "FatCat"
 	desc = "Упитана. Счастлива."
+	ru_names = list(
+		NOMINATIVE = "Ириска",
+		GENITIVE = "Ириски",
+		DATIVE = "Ириске",
+		ACCUSATIVE = "Ириску",
+		INSTRUMENTAL = "Ириской",
+		PREPOSITIONAL = "Ирике"
+	)
 	icon = 'icons/mob/iriska.dmi'
 	icon_state = "iriska"
 	icon_living = "iriska"
