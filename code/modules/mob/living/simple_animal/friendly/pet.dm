@@ -14,13 +14,13 @@
 	if(istype(I, /obj/item/newspaper))
 		add_fingerprint(user)
 		if(stat != CONSCIOUS)
-			to_chat(user, span_warning("[src] has problems with health."))
+			to_chat(user, span_warning("[src] плохо себя чувствует."))
 			return ATTACK_CHAIN_PROCEED
 		user.do_attack_animation(src)
 		playsound(loc, 'sound/items/handling/paper_drop.ogg', 100, TRUE)
 		user.visible_message(
-			span_notice("[user] baps [name] on the nose with the rolled up newspaper."),
-			span_notice("You bap [name] on the nose with the rolled up newspaper."),
+			span_notice("[user] хлопа[pluralize_ru(user.gender,"ет", "ют")] [name.declent_ru(ACCUSATIVE)] по носу свёрнутой газетой."),
+			span_notice("Вы хлопаете [name.declent_ru(ACCUSATIVE)] по носу свёрнутой газетой."),
 		)
 		spin(12, 1)
 		return ATTACK_CHAIN_PROCEED
