@@ -19,8 +19,8 @@
 		user.do_attack_animation(src)
 		playsound(loc, 'sound/items/handling/paper_drop.ogg', 100, TRUE)
 		user.visible_message(
-			span_notice("[user] хлопа[pluralize_ru(user.gender,"ет", "ют")] [name.declent_ru(ACCUSATIVE)] по носу свёрнутой газетой."),
-			span_notice("Вы хлопаете [name.declent_ru(ACCUSATIVE)] по носу свёрнутой газетой."),
+			span_notice("[user] хлопа[pluralize_ru(user.gender,"ет", "ют")] [name] по носу свёрнутой газетой."),
+			span_notice("Вы хлопаете [name] по носу свёрнутой газетой."),
 		)
 		spin(12, 1)
 		return ATTACK_CHAIN_PROCEED

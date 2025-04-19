@@ -16,6 +16,14 @@
 /proc/pluralize_ru(gender, single_word, plural_word)
 	return gender == PLURAL ? plural_word : single_word
 
+/proc/yearname_ru(num, first_word, second_word, third_word)
+	var/age = num % 10
+	if(age == 1)
+		return first_word
+	if(age < 5)
+		return second_word
+	else
+		return(third_word)
 
 /**
  * Replaces the `%(SINGLE,PLURAL)%` or `%(MALE,FEMALE,NEUTER,PLURAL)%` message piece accordingly to user gender.
