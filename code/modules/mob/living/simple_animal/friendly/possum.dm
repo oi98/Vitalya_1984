@@ -1,22 +1,29 @@
 /mob/living/simple_animal/possum
 	name = "possum"
-	desc = "The opossum is a small, scavenging marsupial of the order Didelphimorphia, previously \
-	endemic to the Americas of Earth, but now inexplicably found across settled space. Nobody is \
-	entirely sure how they travel to such disparate locations, with the leading theories including \
-	smuggling, cargo stowaways, fungal spore reproduction, teleportation, or unknown quantum effects."
+	desc = "Это опоссум - маленькое животное с планеты Земля. В наши дни они часто встречаются \
+	по всему обитаемому космосу. Никто точно не знает, как они так быстро распространяются, но \
+	многие винят в этом контробанду, грузовые перевозки или блюспейс аномалии."
+	ru_names = list(
+		NOMINATIVE = "опоссум",
+		GENITIVE = "опоссума",
+		DATIVE = "опоссуму",
+		ACCUSATIVE = "опоссума",
+		INSTRUMENTAL = "опоссумом",
+		PREPOSITIONAL = "опоссуме"
+	)
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "possum"
 	icon_living = "possum"
+	icon_resting = "possum_rest"
+	var/icon_harm = "possum_scream"
 	icon_dead = "possum_dead"
-	icon_resting = "possum_sleep"
-	var/icon_harm = "possum_aaa"
-	response_help  = "pets"
-	response_disarm = "bops"
-	response_harm   = "kicks"
-	speak = list("Hsss...", "Hisss...")
-	speak_emote = list("Hsss", "Hisss")
-	emote_hear = list("Aaaaa!", "Ahhss!")
-	emote_see = list("shakes its head.", "chases its tail.", "shivers.")
+	response_help  = "гладит"
+	response_disarm = "толкает"
+	response_harm   = "пинает"
+	speak = list("Шшшшш...", "Шшшссс...")
+	speak_emote = list("Шипит", "Сипит")
+	emote_hear = list("Кричит!", "Шипит!")
+	emote_see = list("трясёт головой.", "гоняется за своим хвостом.", "дрожит.")
 	tts_seed = "Clockwerk"
 	faction = list("neutral")
 	maxHealth = 30
@@ -72,11 +79,19 @@
 /mob/living/simple_animal/possum/Poppy
 	name = "Ключик"
 	desc = "Маленький работяга. Его жилетка подчеркивает его рабочие... лапы. Тот ещё трудяга. Очень не любит ассистентов в инженерном отделе. И Полли. Интересно, почему?"
+	ru_names = list(
+		NOMINATIVE = "Ключик",
+		GENITIVE = "Ключика",
+		DATIVE = "Ключику",
+		ACCUSATIVE = "Ключика",
+		INSTRUMENTAL = "Ключиом",
+		PREPOSITIONAL = "Ключике"
+	)
 	icon_state = "possum_poppy"
 	icon_living = "possum_poppy"
+	icon_resting = "possum_poppy_rest"
+	icon_harm = "possum_poppy_scream"
 	icon_dead = "possum_poppy_dead"
-	icon_resting = "possum_poppy_sleep"
-	icon_harm = "possum_poppy_aaa"
 	holder_type = /obj/item/holder/possum/poppy
 	maxHealth = 50
 	health = 50

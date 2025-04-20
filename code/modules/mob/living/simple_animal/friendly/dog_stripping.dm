@@ -56,7 +56,7 @@ GLOBAL_LIST_INIT(strippable_muhtar_items, create_strippable_list(list(
 		return FALSE
 
 	if(!istype(equipping, /obj/item/clothing/accessory/petcollar))
-		to_chat(user, span_warning("That's not a collar."))
+		to_chat(user, span_warning("Это не ошейник."))
 		return FALSE
 
 	return TRUE
@@ -92,7 +92,7 @@ GLOBAL_LIST_INIT(strippable_muhtar_items, create_strippable_list(list(
 		return
 	if(!ispath(equipping.dog_fashion, /datum/dog_fashion/back))
 		var/mob/living/simple_animal/pet/dog/dog = source
-		to_chat(user, span_warning("You set [equipping] on [source]'s back, but it falls off!"))
+		to_chat(user, span_warning("Вы надеваете [equipping.declent_ru(GENITIVE)] на спину [source.declent_ru(GENITIVE)], но [equipping] сваливается!"))
 		equipping.forceMove(source.drop_location())
 		if(prob(25))
 			step_rand(equipping)
@@ -133,7 +133,7 @@ GLOBAL_LIST_INIT(strippable_muhtar_items, create_strippable_list(list(
 
 	//The objects that secdogs can wear on their faces.
 	if(!ispath(equipping.muhtar_fashion, /datum/muhtar_fashion/mask))
-		to_chat(user, span_warning("You set [equipping] on [src]'s face, but it falls off!"))
+		to_chat(user, span_warning("Вы одеваете [equipping] на лицо [src], но она тут же сваливается!"))
 		equipping.forceMove(dog_source.drop_location())
 		if(prob(25))
 			step_rand(equipping)

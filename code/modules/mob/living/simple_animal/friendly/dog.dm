@@ -32,6 +32,7 @@
 	nightvision = 5
 	speak_chance = 1
 	turns_per_move = 10
+	mobility_flags = MOBILITY_FLAGS_REST_CAPABLE_DEFAULT
 	mob_size = MOB_SIZE_SMALL
 	gold_core_spawnable = FRIENDLY_SPAWN
 	hud_type = /datum/hud/corgi
@@ -76,7 +77,7 @@
 		regenerate_icons()
 		return
 	if(sitting)
-		icon_state = "[icon_living]_[icon_sit]"
+		icon_state = icon_sit
 		if(collar_type)
 			collar_type = "[initial(collar_type)]_[icon_sit]"
 	else if(resting || body_position == LYING_DOWN)
@@ -94,6 +95,36 @@
 
 	visible_message("[src] [pick("крутится", "гоня%(ет,ют)%ся за своим хвостом")].", "[pick("Вы крутитесь", "Вы гоняетесь за своим хвостом")].")
 	spin(20, 1)
+
+//Start of Dog Emotions!!!
+
+/mob/living/simple_animal/pet/dog/verb/growl()
+	set name = "Рычать"
+	set category = "Эмоции"
+
+	playsound(src, pick(growl_sound), 30)
+	visible_message("[src] рыч%(ит,ат)%.", "Вы рычите.")
+
+/mob/living/simple_animal/pet/dog/verb/bark()
+	set name = "Лаять"
+	set category = "Эмоции"
+
+	playsound(src, bark_sound, 30)
+	visible_message("[src] [pick(bark_emote)].", "[pick("Вы лаете", "Вы гавкаете")].")
+
+/mob/living/simple_animal/pet/dog/verb/head_shake()
+	set name = "Трясти головой"
+	set category = "Эмоции"
+
+	visible_message("[src] [pick("тряс%(ёт,ут)% головой", "встряхивает голову")].", "[pick("Вы трясёте головой", "Вы встряхиваете голову")].")
+
+/mob/living/simple_animal/pet/dog/verb/itch()
+	set name = "Гонять блох"
+	set category = "Эмоции"
+
+	visible_message("[src] [pick("чешется", "гоняет блох")]!", "[pick("Вы чешетесь", "Вы гоняете блох")]!")
+
+// End of dog emotions!!!
 
 /mob/living/simple_animal/pet/dog/death(gibbed)
 	// Only execute the below if we successfully died
@@ -135,6 +166,14 @@
 	name = "\improper corgi"
 	real_name = "корги"
 	desc = "Это корги, собака благородной породы коротколапых собак с короткой рыжей шерсткой."
+	ru_names = list(
+		NOMINATIVE = "корги",
+		GENITIVE = "корги",
+		DATIVE = "корги",
+		ACCUSATIVE = "корги",
+		INSTRUMENTAL = "корги",
+		PREPOSITIONAL = "корги"
+	)
 	icon_state = "corgi"
 	icon_living = "corgi"
 	icon_resting = "corgi_rest"
@@ -222,10 +261,10 @@
 		)
 		I.play_tool_sound(src, 30)
 		shaved = TRUE
-		icon_living = "[initial(icon_living)]_shaved"
-		icon_dead = "[initial(icon_living)]_shaved_dead"
-		icon_resting = "[initial(icon_living)]_shaved_rest"
-		icon_sit = "[initial(icon_living)]_shaved_sit"
+		icon_living = "shaved_[initial(icon_living)]"
+		icon_dead = "shaved_[icon_dead]"
+		icon_resting = "shaved_[icon_resting]"
+		icon_sit = "shaved_[icon_sit]"
 		update_icons()
 		return ATTACK_CHAIN_PROCEED_SUCCESS
 
@@ -398,7 +437,14 @@
 	real_name = "Иан"	//Intended to hold the name without altering it.
 	gender = MALE
 	desc = "Добрый и милый корги Иан, любимец Главы Персонала."
-
+	ru_names = list(
+		NOMINATIVE = "Иан",
+		GENITIVE = "Иана",
+		DATIVE = "Иану",
+		ACCUSATIVE = "Иана",
+		INSTRUMENTAL = "Ианом",
+		PREPOSITIONAL = "Иане"
+	)
 	var/turns_since_scan = 0
 	var/obj/movement_target
 	response_help  = "гладит"
@@ -427,6 +473,14 @@
 			var/mob/living/simple_animal/pet/dog/corgi/puppy/P = new /mob/living/simple_animal/pet/dog/corgi/puppy(target)
 			P.name = "Ian"
 			P.real_name = "Иан"
+			P.ru_names = list(
+				NOMINATIVE = "Иан",
+				GENITIVE = "Иана",
+				DATIVE = "Иану",
+				ACCUSATIVE = "Иана",
+				INSTRUMENTAL = "Ианом",
+				PREPOSITIONAL = "Иане"
+			)
 			P.gender = MALE
 			P.desc = "Миленький, добренький, маленький щеночек Иан, любимец Главы Персонала."
 			write_memory(FALSE)
@@ -533,7 +587,7 @@
 							movement_target.attack_animal(src)
 						else if(ishuman(movement_target.loc) )
 							if(prob(20))
-								custom_emote(EMOTE_VISIBLE, "stares at [movement_target.loc]'s [movement_target] with a sad puppy-face")
+								custom_emote(EMOTE_VISIBLE, "пялится на [movement_target] у [movement_target.loc] грустными щенячими глазами.")
 
 		if(prob(1))
 			custom_emote(EMOTE_VISIBLE, pick("верт%(ит,ят)%ся.", "гоня%(ет,ют)%ся за своим хвостом."))
@@ -558,6 +612,14 @@
 /mob/living/simple_animal/pet/dog/corgi/narsie
 	name = "Нарс'Иан"
 	desc = "Жуткое порождение Кровавого Культа. СЛАВА НАР'СИ!"
+	ru_names = list(
+		NOMINATIVE = "Нарс'Иан",
+		GENITIVE = "Нарс'Иана",
+		DATIVE = "Нарс'Иану",
+		ACCUSATIVE = "Нарс'Иана",
+		INSTRUMENTAL = "Нарс'Ианом",
+		PREPOSITIONAL = "Нарс'Иане"
+	)
 	icon_state = "narsian"
 	icon_living = "narsian"
 	icon_resting = "narsian_rest"
@@ -604,6 +666,14 @@
 /mob/living/simple_animal/pet/dog/corgi/ratvar
 	name = "Клац-Ик"
 	desc = "Латунная собачка, постоянно щёлкает, трещит, вызывает желание славит латунного Бога."
+	ru_names = list(
+		NOMINATIVE = "Клац-Ик",
+		GENITIVE = "Клац-Ика",
+		DATIVE = "Клац-Ику",
+		ACCUSATIVE = "Клац-Ика",
+		INSTRUMENTAL = "Клац-Иком",
+		PREPOSITIONAL = "Клац-Ике"
+	)
 	icon = 'icons/mob/clockwork_mobs.dmi'
 	icon_state = "clik"
 	icon_living = "clik"
@@ -619,9 +689,9 @@
 
 /mob/living/simple_animal/pet/dog/corgi/ratvar/update_dog_fluff()
 	..()
-	speak = list("Во'З Фуваффат Жнэвбэ! ", "КЛАЦ!", "КЫЦ-КЫЦ-КЛАЦ!!")
+	speak = list("Во'З Фуваффат Жнэвбэ!", "КЛАЦ!", "КЫЦ-КЫЦ-КЛАЦ!!")
 	speak_emote = list("рычит", "зловеще лает")
-	emote_hear = list("лает с гулким эхом!", "ужасающе лает!", "тяфкает, словно вына страшном суде!", "бормочит что-то неизречимое.")
+	emote_hear = list("лает с гулким эхом!", "ужасающе лает!", "тяфкает, словно вы на страшном суде!", "бормочит что-то неизречимое.")
 	emote_see = list("общается с неназываемым.", "ищет свет в душах.", "сотрясается.")
 
 /mob/living/simple_animal/pet/dog/corgi/ratvar/ratvar_act()
@@ -630,9 +700,19 @@
 /mob/living/simple_animal/pet/dog/corgi/puppy
 	name = "\improper corgi puppy"
 	real_name = "корги"
+	ru_names = list(
+		NOMINATIVE = "щенок корги",
+		GENITIVE = "щенка корги",
+		DATIVE = "щенку корги",
+		ACCUSATIVE = "щенка корги",
+		INSTRUMENTAL = "щенком корги",
+		PREPOSITIONAL = "щенке корги"
+	)
 	desc = "Это маленький щеночек корги! Какая милота!"
 	icon_state = "puppy"
 	icon_living = "puppy"
+	icon_resting = "puppy_rest"
+	icon_sit = "puppy_sit"
 	icon_dead = "puppy_dead"
 	density = FALSE
 	pass_flags = PASSMOB
@@ -646,8 +726,16 @@
 
 /mob/living/simple_animal/pet/dog/corgi/puppy/void		//Tribute to the corgis born in nullspace
 	name = "\improper void puppy"
-	real_name = "пустотик"
+	real_name = "Пустотик"
 	desc = "Это щенок корги, которого поглотила энергия глубокого космоса. Похоже, она смотрим вам в ответ..."
+	ru_names = list(
+		NOMINATIVE = "Пустотик",
+		GENITIVE = "Пустотика",
+		DATIVE = "Пустотику",
+		ACCUSATIVE = "Пустотика",
+		INSTRUMENTAL = "Пустотиком",
+		PREPOSITIONAL = "Пустотике"
+	)
 	icon_state = "void_puppy"
 	icon_living = "void_puppy"
 	icon_resting = "void_puppy_rest"
@@ -676,8 +764,16 @@
 
 /mob/living/simple_animal/pet/dog/corgi/puppy/slime
 	name = "\improper slime puppy"
-	real_name = "Слизня"
-	desc = "Крайне склизкий. Но прикольный!"
+	real_name = "слизнепёсик"
+	desc = "Маленький слзнячок в форме щенка корги. Очень склизкий, но прикольный!"
+	ru_names = list(
+		NOMINATIVE = "слизнепёсик",
+		GENITIVE = "слизнепёсика",
+		DATIVE = "слизнепёсику",
+		ACCUSATIVE = "слизнепёсика",
+		INSTRUMENTAL = "слизнепёсиком",
+		PREPOSITIONAL = "слизнепёсике"
+	)
 	icon_state = "slime_puppy"
 	icon_living = "slime_puppy"
 	icon_resting = "slime_puppy_rest"
@@ -699,6 +795,14 @@
 	real_name = "Лиза"
 	gender = FEMALE
 	desc = "Красивая корги с прелестным розовым бантиком на голове."
+	ru_names = list(
+		NOMINATIVE = "Лиза",
+		GENITIVE = "Лизы",
+		DATIVE = "Лизе",
+		ACCUSATIVE = "Лизу",
+		INSTRUMENTAL = "Лизом",
+		PREPOSITIONAL = "Лизе"
+	)
 	gold_core_spawnable = NO_SPAWN
 	unique_pet = TRUE
 	icon_state = "lisa"
@@ -728,6 +832,14 @@
 /mob/living/simple_animal/pet/dog/corgi/exoticcorgi
 	name = "Exotic Corgi"
 	desc = "Экзотический корги, известны своей необычной разноцветной расцветкой."
+	ru_names = list(
+		NOMINATIVE = "Экзотический корги",
+		GENITIVE = "Экзотического корги",
+		DATIVE = "Экзотическому корги",
+		ACCUSATIVE = "Экзотического корги",
+		INSTRUMENTAL = "Экзотическим корги",
+		PREPOSITIONAL = "Экзотическом корги"
+	)
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "corgigrey"
 	icon_living = "corgigrey"
@@ -743,7 +855,15 @@
 /mob/living/simple_animal/pet/dog/corgi/borgi
 	name = "E-N"
 	real_name = "Е-Н"	//Intended to hold the name without altering it.
-	desc = "Новейшая разработка робототехники, самый прелестный и неповторимый - Борги!."
+	desc = "Новейшая разработка робототехники, самый прелестный и неповторимый - Борги!"
+	ru_names = list(
+		NOMINATIVE = "Е-Н",
+		GENITIVE = "Е-На",
+		DATIVE = "Е-Ну",
+		ACCUSATIVE = "Е-На",
+		INSTRUMENTAL = "Е-Ном",
+		PREPOSITIONAL = "Е-Не"
+	)
 	icon_state = "borgi"
 	icon_living = "borgi"
 	icon_resting = "borgi_rest"
@@ -837,8 +957,16 @@
 
 /mob/living/simple_animal/pet/dog/pug
 	name = "\improper pug"
-	real_name = "pug"
-	desc = "It's a pug."
+	real_name = "мопс"
+	desc = "Это мопс, маленька собачка с тупой мордой, буквально и фигурально."
+	ru_names = list(
+		NOMINATIVE = "мопс",
+		GENITIVE = "мопса",
+		DATIVE = "мопсу",
+		ACCUSATIVE = "мопса",
+		INSTRUMENTAL = "мопсом",
+		PREPOSITIONAL = "мопсе"
+	)
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "pug"
 	icon_living = "pug"
@@ -862,19 +990,37 @@
 
 /mob/living/simple_animal/pet/dog/bullterrier
 	name = "\improper bullterrier"
-	real_name = "bullterrier"
+	real_name = "бультерьер"
 	desc = "Кого-то его мордочка напоминает..."
+	ru_names = list(
+		NOMINATIVE = "бультерьер",
+		GENITIVE = "бультерьера",
+		DATIVE = "бультерьеру",
+		ACCUSATIVE = "бультерьера",
+		INSTRUMENTAL = "бультерьером",
+		PREPOSITIONAL = "бультерьере"
+	)
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "bullterrier"
 	icon_living = "bullterrier"
+	icon_resting = "bullterrier"
+	icon_sit = "bullterrier"
 	icon_dead = "bullterrier_dead"
 	//tts_seed = "Kleiner"
 	holder_type = /obj/item/holder/bullterrier
 
 /mob/living/simple_animal/pet/dog/tamaskan
 	name = "\improper tamaskan"
-	real_name = "tamaskan"
+	real_name = "тамаскан"
 	desc = "Хорошая семейная собака. Уживается с другими собаками и ассистентами."
+	ru_names = list(
+		NOMINATIVE = "тамаскан",
+		GENITIVE = "тамаскана",
+		DATIVE = "тамаскану",
+		ACCUSATIVE = "тамаскана",
+		INSTRUMENTAL = "тамасканом",
+		PREPOSITIONAL = "тамаскане"
+	)
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "tamaskan"
 	icon_living = "tamaskan"
@@ -884,8 +1030,16 @@
 
 /mob/living/simple_animal/pet/dog/german
 	name = "\improper german"
-	real_name = "german"
+	real_name = "немецкая овчарка"
 	desc = "Немецкая овчарка с помесью двортерьера. Судя по крупу - явно не породистый."
+	ru_names = list(
+		NOMINATIVE = "немецкая овчарка",
+		GENITIVE = "немецкой овчаркой",
+		DATIVE = "немецкой овчарке",
+		ACCUSATIVE = "немецкую овчарку",
+		INSTRUMENTAL = "немецкой овчаркой",
+		PREPOSITIONAL = "немецкой овчарке"
+	)
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "german"
 	icon_living = "german"
@@ -894,8 +1048,16 @@
 
 /mob/living/simple_animal/pet/dog/brittany
 	name = "\improper brittany"
-	real_name = "brittany"
+	real_name = "бретонский эпаньоль"
 	desc = "Старая порода, которую любят аристократы."
+	ru_names = list(
+		NOMINATIVE = "бретонский эпаньоль",
+		GENITIVE = "бретонского эпаньола",
+		DATIVE = "бретонскому эпаньолу",
+		ACCUSATIVE = "бретонского эпаньола",
+		INSTRUMENTAL = "бретонским эпаньолом",
+		PREPOSITIONAL = "бретонском эпаньоле"
+	)
 	icon = 'icons/mob/pets.dmi'
 	icon_state = "brittany"
 	icon_living = "brittany"

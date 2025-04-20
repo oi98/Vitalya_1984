@@ -1,10 +1,19 @@
 /mob/living/simple_animal/pet/dog/security
-	name = "Мухтар"
+	name = "Muhtar"
 	real_name = "Мухтар"
 	desc = "Верный служебный пес. Он гордо несёт бремя хорошего мальчика."
+	ru_names = list(
+		NOMINATIVE = "Мухтар",
+		GENITIVE = "Мухтара",
+		DATIVE = "Мухтару",
+		ACCUSATIVE = "Мухтара",
+		INSTRUMENTAL = "Мухтаром",
+		PREPOSITIONAL = "Мухтаре"
+	)
 	icon_state = "german_shep"
 	icon_living = "german_shep"
 	icon_resting = "german_shep_rest"
+	icon_sit = "german_shep_sit"
 	icon_dead = "german_shep_dead"
 	mobility_flags = MOBILITY_FLAGS_REST_CAPABLE_DEFAULT
 	health = 35
@@ -19,11 +28,20 @@
 
 /mob/living/simple_animal/pet/dog/security/ranger
 	name = "Ranger"
-	real_name = "Ranger"
-	desc = "That's Ranger, your friendly and fierce k9. He has seen the terror of Xenomorphs, so it's best to be nice to him. <b>RANGER LEAD THE WAY</b>!"
+	real_name = "Рейнджер"
+	desc = "Это Рейнджер, дружелюбный полицейский пёс. Он вызывал ужас у ксеноморфов, так что лучше будь с ним поласковее. <b>РЕЙНДЖЕР ВПЕРЁД</b>!"
+	ru_names = list(
+		NOMINATIVE = "Рейнджер",
+		GENITIVE = "Рейнджера",
+		DATIVE = "Рейнджеру",
+		ACCUSATIVE = "Рейнджера",
+		INSTRUMENTAL = "Рейнджером",
+		PREPOSITIONAL = "Рейнджере"
+	)
 	icon_state = "ranger"
 	icon_living = "ranger"
 	icon_resting = "ranger_rest"
+	icon_sit = "ranger_sit"
 	icon_dead = "ranger_dead"
 	tts_seed = "Pudge"
 
@@ -31,6 +49,14 @@
 	name = "Джульбарс"
 	real_name = "Джульбарс"
 	desc = "Мудрый служебный пес, названный в честь единственной собаки удостоившийся боевой награды."
+	ru_names = list(
+		NOMINATIVE = "Джульбарс",
+		GENITIVE = "Джульбарса",
+		DATIVE = "Джульбарсу",
+		ACCUSATIVE = "Джульбарса",
+		INSTRUMENTAL = "Джульбарсом",
+		PREPOSITIONAL = "Джульбарсе"
+	)
 	icon_state = "german_shep2"
 	icon_living = "german_shep2"
 	icon_resting = "german_shep2_rest"
@@ -77,16 +103,16 @@
 
 	if(inventory_head)
 		if(user)
-			to_chat(user, "<span class='warning'>You can't put more than one hat on [src]!</span>")
+			balloon_alert(user, "Шляпа уже надета!")
 		return
 	if(!item_to_add)
-		user.visible_message("<span class='notice'>[user] pets [src].</span>", "<span class='notice'>You rest your hand on [src]'s head for a moment.</span>")
+		user.visible_message("<span class='notice'>[user] гладит [src].</span>", "<span class='notice'>Вы кладёте руку на голову [src].</span>")
 		if(flags & HOLOGRAM)
 			return
 		return
 
 	if(user && !user.drop_item_ground(item_to_add))
-		to_chat(user, "<span class='warning'>\The [item_to_add] is stuck to your hand, you cannot put it on [src]'s head!</span>")
+		to_chat(user, "<span class='warning'> [item_to_add] застрял в ваших руках, вы не можете надеть её на голову [src.declent_ru(DATIVE)]!</span>")
 		return 0
 
 	var/valid = FALSE
@@ -97,17 +123,17 @@
 
 	if(valid)
 		if(health <= 0)
-			to_chat(user, "<span class='notice'>There is merely a dull, lifeless look in [real_name]'s eyes as you put the [item_to_add] on [p_them()].</span>")
+			to_chat(user, "<span class='notice'>Когда вы надеваете [item_to_add.declent_ru(GENITIVE)] на голову [src.declent_ru(DATIVE)], вы видите тусклый, бесжизненный взгляд у [genderize_ru(src.gender,"него","неё","него","них")] в глазах.</span>")
 		else if(user)
-			user.visible_message("<span class='notice'>[user] puts [item_to_add] on [real_name]'s head. [src] looks at [user] and barks once.</span>",
-				"<span class='notice'>You put [item_to_add] on [real_name]'s head. [src] gives you a peculiar look, then wags [p_their()] tail once and barks.</span>",
-				"<span class='italics'>You hear a friendly-sounding bark.</span>")
+			user.visible_message("<span class='notice'>[user] надевает [item_to_add] на голову [src.declent_ru(GENITIVE)]. [src] смотрит на [genderize_ru(user.gender,"него","неё","него","них")] и тяфкает.</span>",
+				"<span class='notice'>Вы надеваете [item_to_add.declent_ru(GENITIVE)] на голову [src.declent_ru(DATIVE)]. [src] бросает на вас необычный взгляд, затем, вильнув хвостом, довольно тяфкнул.</span>",
+				"<span class='italics'>Вы слышите дружелюбное тяфканье.</span>")
 		item_to_add.forceMove(src)
 		inventory_head = item_to_add
 		update_dog_fluff()
 		regenerate_icons()
 	else
-		to_chat(user, "<span class='warning'>You set [item_to_add] on [src]'s head, but it falls off!</span>")
+		to_chat(user, "<span class='warning'>Вы надеваете [item_to_add.declent_ru(GENITIVE)] на голову [src.declent_ru(GENITIVE)], но [item_to_add] тут же сваливается!</span>")
 		item_to_add.forceMove(drop_location())
 		if(prob(25))
 			step_rand(item_to_add)
@@ -122,10 +148,10 @@
 	name = real_name
 	desc = initial(desc)
 	// BYOND/DM doesn't support the use of initial on lists.
-	speak = list("YAP", "Woof!", "Bark!", "AUUUUUU")
-	speak_emote = list("barks", "woofs")
-	emote_hear = list("barks!", "woofs!", "yaps.","pants.")
-	emote_see = list("shakes its head.", "chases its tail.","shivers.")
+	speak = list("ТЯФ!", "Гав!", "Гаф!", "Ааууууу!")
+	speak_emote = list("лает", "гавкает")
+	emote_hear = list("лает!", "гафкает!", "тяфкает.", "дышит с высунутым языком.")
+	emote_see = list("трясёт головой.", "гоняется за своим хвостом.", "дрожит.")
 	desc = initial(desc)
 
 	if(inventory_head && inventory_head.muhtar_fashion)
@@ -190,8 +216,18 @@
 /mob/living/simple_animal/pet/dog/security/detective
 	name = "Гав-Гавыч"
 	desc = "Старый служебный пёс. Он давно потерял нюх, однако детектив по-прежнему содержит и заботится о нём."
+	ru_names = list(
+		NOMINATIVE = "Гав-Гавыч",
+		GENITIVE = "Гав-Гавыча",
+		DATIVE = "Гав-Гавычу",
+		ACCUSATIVE = "Гав-Гавыча",
+		INSTRUMENTAL = "Гав-Гавычом",
+		PREPOSITIONAL = "Гав-Гавыче"
+	)
 	icon_state = "blackdog"
 	icon_living = "blackdog"
+	icon_sit = "blackdog"
+	icon_resting = "blackdog"
 	icon_dead = "blackdog_dead"
 	icon_resting = "blackdog_rest"
 	tts_seed = "Thrall"
