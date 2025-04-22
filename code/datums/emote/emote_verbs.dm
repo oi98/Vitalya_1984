@@ -623,10 +623,25 @@
 	emote("no", intentional = TRUE)
 
 /**
+ * simple_animal
+ */
+
+// Dogs
+
+/mob/living/simple_animal/pet/dog/proc/emote_bark()
+	set name = "◦ Лаять"
+	set category = "Эмоции"
+	emote("bark", intentional = TRUE)
+
+/mob/living/simple_animal/pet/dog/proc/emote_growl()
+	set name = "◦ Рычать"
+	set category = "Эмоции"
+	emote("bark", intentional = TRUE)
+
+/**
  * Other
  */
 /mob/living/carbon/human/proc/emote_rattle()
 	set name = "< Греметь костями >"
 	set category = "Эмоции"
 	emote("rattle", intentional = TRUE)
-

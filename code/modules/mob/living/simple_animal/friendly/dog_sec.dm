@@ -106,7 +106,7 @@
 			balloon_alert(user, "Шляпа уже надета!")
 		return
 	if(!item_to_add)
-		user.visible_message("<span class='notice'>[user] гладит [src].</span>", "<span class='notice'>Вы кладёте руку на голову [src].</span>")
+		user.visible_message("<span class='notice'>[user] гладит [src.declent_ru(ACCUSATIVE)].</span>", "<span class='notice'>Вы кладёте руку на голову [src.declent_ru(GENITIVE)].</span>")
 		if(flags & HOLOGRAM)
 			return
 		return
