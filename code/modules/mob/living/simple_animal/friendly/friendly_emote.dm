@@ -167,3 +167,45 @@
 /datum/emote/living/simple_animal/frog_warcry/get_sound(mob/living/simple_animal/frog/user)
 	return user.scream_sound
 
+/**
+ * Dog
+ */
+
+/datum/emote/living/simple_animal/pet/dog
+	mob_type_allowed_typecache = list(/mob/living/simple_animal/pet/dog)
+
+
+/datum/emote/living/simple_animal/pet/dog/bark
+	key = "bark"
+	key_third_person = "barks"
+	message = pick("ла%(ет,ют)%.", "гавка%(ет,ют)%.")
+	message_postfix = " на %t."
+	message_param = EMOTE_PARAM_USE_POSTFIX
+	emote_type = EMOTE_AUDIBLE
+	vary = TRUE
+
+
+/datum/emote/living/simple_animal/pet/dog/bark/get_sound(mob/living/simple_animal/pet/dog/user)
+	return user.bark_sound
+
+
+/datum/emote/living/simple_animal/pet/dog/growl
+	key = "growl"
+	key_third_person = "growls"
+	message = "рыч%(ит,ат)%!"
+	message_postfix = " на %t!"
+	message_param = EMOTE_PARAM_USE_POSTFIX
+	emote_type = EMOTE_AUDIBLE
+
+
+/datum/emote/living/simple_animal/pet/dog/growl/get_sound(mob/living/simple_animal/dog/user)
+	return user.growl_sound
+
+/datum/emote/living/sit/dog
+	message = null
+	mob_type_allowed_typecache = list(/mob/living/simple_animal/pet/dog)
+
+
+/datum/emote/living/sit/cat/run_emote(mob/living/simple_animal/pet/dog/user, params, type_override, intentional)
+	user.sit()
+	return TRUE
