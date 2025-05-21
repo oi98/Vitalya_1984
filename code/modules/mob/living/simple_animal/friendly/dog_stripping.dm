@@ -56,7 +56,7 @@ GLOBAL_LIST_INIT(strippable_muhtar_items, create_strippable_list(list(
 		return FALSE
 
 	if(!istype(equipping, /obj/item/clothing/accessory/petcollar))
-		to_chat(user, span_warning("Это не ошейник."))
+		user.balloon_alert(user, "Это не ошейник!")
 		return FALSE
 
 	return TRUE
