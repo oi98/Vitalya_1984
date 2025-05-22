@@ -21,7 +21,7 @@
 	response_disarm = "толкает"
 	response_harm   = "пинает"
 	speak = list("Шшшшш...", "Шшшссс...")
-	speak_emote = list("Шипит", "Сипит")
+	speak_emote = list("Шипит", "Сопит")
 	emote_hear = list("Кричит!", "Шипит!")
 	emote_see = list("трясёт головой.", "гоняется за своим хвостом.", "дрожит.")
 	tts_seed = "Clockwerk"

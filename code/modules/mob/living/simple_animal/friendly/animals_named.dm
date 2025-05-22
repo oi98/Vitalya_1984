@@ -161,22 +161,58 @@
 	health = 20
 	resting = TRUE
 
-/mob/living/simple_animal/pet/dog/bullterrier/Genn
-	name = "Gennadiy"
-	desc = "Собачий аристократ. Выглядит очень важным и начитанным. Доброжелательный любимец ассистентов."
+/mob/living/simple_animal/pet/library_owl
+	name = "Slava the Owl"
+	desc = "Молоденький Сыч Славка, безвылазно сидит в коморке библиотекаря, читает всякие разные книжки и сычует на разных форумах."
 	ru_names = list(
-		NOMINATIVE = "Генеадий",
-		GENITIVE = "Геннадия",
-		DATIVE = "Геннадию",
-		ACCUSATIVE = "Геннадия",
-		INSTRUMENTAL = "Геннадием",
-		PREPOSITIONAL = "Геннадии"
+		NOMINATIVE = "сыч Слава",
+		GENITIVE = "сыча Славы",
+		DATIVE = "сычу Славе",
+		ACCUSATIVE = "сыча Славу",
+		INSTRUMENTAL = "сычом Славой",
+		PREPOSITIONAL = "сыче Славе"
 	)
+	icon_state = "library_owl"
+	icon_living = "library_owl"
+	icon_dead = "library_owl_dead"
+	icon_resting = "library_owl_rest"
+	response_help  = "гладит"
+	response_disarm = "толкает"
+	response_harm   = "пинает"
+	speak = list("Уух-Ууууф.","Хууу, Хуууу.", "Ху-хууух!")
+	gender = MALE
+	speak_emote = list("угукает", "ухает")
+	emote_hear = list("угукает!", "ухает!", "размахивает своими крыльями!")
+	emote_see = list("встряхивает свои перья.", "машет крылышками.", "дрожит.")
+	tts_seed = "Stetmann"
+	faction = list("neutral")
+	maxHealth = 50
+	health = 50
+	melee_damage_type = STAMINA
+	melee_damage_lower = 6
+	melee_damage_upper = 10
+	attacktext = "клюёт"
+	nightvision = 15
+	speak_chance = 1
+	turns_per_move = 10
+	mobility_flags = MOBILITY_FLAGS_REST_CAPABLE_DEFAULT
+	mob_size = MOB_SIZE_SMALL
 	unique_pet = TRUE
 	gold_core_spawnable = NO_SPAWN
-	maxHealth = 5
-	health = 5
-	resting = TRUE
+	var/yelp_sound = 'sound/creatures/dog_yelp.ogg' //Used on death.
+	footstep_type = FOOTSTEP_MOB_CLAW
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/bird = 1)
+	holder_type = /obj/item/holder/library_owl
+
+/mob/living/simple_animal/pet/library_owl/can_use_machinery(obj/machinery/mas)
+	. = ..()
+	var/static/list/typecache_whitelist = typecacheof(list(
+		/obj/machinery/computer/library,
+		/obj/structure/bookcase,
+	))
+	if(is_type_in_typecache(mas, typecache_whitelist))
+		return TRUE
+
 
 /mob/living/simple_animal/mouse/rat/white/Brain
 	name = "Brain"
