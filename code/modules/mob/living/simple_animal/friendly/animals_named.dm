@@ -197,7 +197,7 @@
 	speak_emote = list("угукает", "ухает")
 	emote_hear = list("угукает!", "ухает!", "размахивает своими крыльями!")
 	emote_see = list("встряхивает свои перья.", "машет крылышками.", "дрожит.")
-	tts_seed = "Stetmann"
+	tts_seed = "Priest"
 	faction = list("neutral")
 	maxHealth = 50
 	health = 50
@@ -215,7 +215,7 @@
 	var/yelp_sound = 'sound/creatures/dog_yelp.ogg' //Used on death.
 	footstep_type = FOOTSTEP_MOB_CLAW
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/bird = 1)
-	holder_type = /obj/item/holder/library_owl
+	//holder_type = /obj/item/holder/library_owl
 
 /mob/living/simple_animal/pet/library_owl/can_use_machinery(obj/machinery/mas)
 	. = ..()

@@ -161,6 +161,7 @@
 	icon_state = "fennec"
 	icon_living = "fennec"
 	icon_dead = "fennec_dead"
+	icon_sit = "fennec_sit"
 	icon_resting = "fennec_rest"
 	nightvision = 10
 	holder_type = /obj/item/holder/fennec
