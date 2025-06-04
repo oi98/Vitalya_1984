@@ -1,5 +1,29 @@
 //OTHER DEBUFFS
 
+/datum/status_effect/his_wrath //does minor damage over time unless holding His Grace
+	id = "his_wrath"
+	duration = -1
+	tick_interval = 0.4 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/his_wrath
+
+/atom/movable/screen/alert/status_effect/his_wrath
+	name = "Его Гнев"
+	desc = "Вы предпочли бегство повиновению Его Светлости — и вот ваша расплата."
+	icon_state = "his_grace"
+	alerttooltipstyle = "hisgrace"
+
+/datum/status_effect/his_wrath/tick(seconds_between_ticks)
+	if(owner.find_item(/obj/item/his_grace))
+		qdel(src)
+		return
+	var/need_mob_update
+	need_mob_update = owner.adjustBruteLoss(0.5 * seconds_between_ticks, updating_health = FALSE)
+	need_mob_update += owner.adjustFireLoss(0.5 * seconds_between_ticks, updating_health = FALSE)
+	need_mob_update += owner.adjustToxLoss(0.08 * seconds_between_ticks, updating_health = FALSE, forced = TRUE)
+	if(!need_mob_update)
+		return
+	owner.updatehealth()
+
 /datum/status_effect/cultghost //is a cult ghost and can't use manifest runes
 	id = "cult_ghost"
 	duration = -1
@@ -944,9 +968,9 @@
 	game_plane_master_controller.remove_filter("eye_blur")
 
 	// Maybe this should be bad for server perfomance, but i dont test it on production server
-	for(var/mob/dead/observer/observe in owner.orbiters)
-		if(!istype(observe) || !observe.client || !observe.orbit_menu?.auto_observe)
-			LAZYREMOVE(owner.orbiters, observe)
+	for(var/mob/dead/observer/observe in owner.inventory_observers)
+		if(!observe.client)
+			LAZYREMOVE(owner.inventory_observers, observe)
 			continue
 		game_plane_master_controller = observe.hud_used.plane_master_controllers[PLANE_MASTERS_GAME]
 		game_plane_master_controller.remove_filter("eye_blur")
@@ -965,9 +989,9 @@
 	game_plane_master_controller.add_filter("eye_blur", 1, gauss_blur_filter(amount_of_blur))
 
 	// Maybe this should be bad for server perfomance, but i dont test it on production server
-	for(var/mob/dead/observer/observe in owner.orbiters)
-		if(!istype(observe) || !observe.client || !observe.orbit_menu?.auto_observe)
-			LAZYREMOVE(owner.orbiters, observe)
+	for(var/mob/dead/observer/observe in owner.inventory_observers)
+		if(!observe.client)
+			LAZYREMOVE(owner.inventory_observers, observe)
 			continue
 		game_plane_master_controller = observe.hud_used.plane_master_controllers[PLANE_MASTERS_GAME]
 		game_plane_master_controller.add_filter("eye_blur", 1, gauss_blur_filter(amount_of_blur))

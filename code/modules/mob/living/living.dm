@@ -944,7 +944,7 @@
 
 
 /mob/living/proc/makeTrail(turf/T)
-	if(!has_gravity())
+	if(no_gravity())
 		return
 
 	var/blood_exists = FALSE

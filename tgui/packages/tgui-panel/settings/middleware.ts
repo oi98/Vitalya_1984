@@ -9,21 +9,21 @@ import { storage } from 'common/storage';
 import { setClientTheme } from '../themes';
 import {
   addHighlightSetting,
+  exportSettings,
+  importSettings,
   loadSettings,
   removeHighlightSetting,
   updateHighlightSetting,
   updateSettings,
-  exportSettings,
-  importSettings,
 } from './actions';
-import { FONTS_DISABLED } from './constants';
+import { FONTS_DISABLED, MAX_SETTINGS_LOAT_ATEMPS } from './constants';
 import { setDisplayScaling } from './scaling';
 import { selectSettings } from './selectors';
 import { exportChatSettings } from './settingsImExport';
 
-let setStatFontFamilyTimer: NodeJS.Timeout;
 let statFontTimer: NodeJS.Timeout;
 let statTabsTimer: NodeJS.Timeout;
+let statFamilyTimer: NodeJS.Timeout;
 let overrideRule: HTMLStyleElement;
 let overrideFontFamily: string | undefined;
 let overrideFontSize: string;
@@ -57,6 +57,7 @@ const setGlobalFontSize = (
   statLinked: boolean
 ) => {
   overrideFontSize = `${fontSize}px`;
+
   // Used solution from theme.ts
   clearInterval(statFontTimer);
   Byond.command(
@@ -76,11 +77,19 @@ const setGlobalFontFamily = (
 ) => {
   overrideFontFamily = fontFamily === FONTS_DISABLED ? undefined : fontFamily;
 
-  clearInterval(setStatFontFamilyTimer);
+  if (fontFamily === FONTS_DISABLED) {
+    fontFamily = null;
+  }
+
+  if (statFontFamily === FONTS_DISABLED) {
+    statFontFamily = null;
+  }
+
+  clearInterval(statFamilyTimer);
   Byond.command(
     `.output statbrowser:set_font_style ${statLinked ? fontFamily : statFontFamily}`
   );
-  setStatFontFamilyTimer = setTimeout(() => {
+  statFamilyTimer = setTimeout(() => {
     Byond.command(
       `.output statbrowser:set_font_style ${statLinked ? fontFamily : statFontFamily}`
     );
@@ -88,12 +97,24 @@ const setGlobalFontFamily = (
 };
 
 const setStatTabsStyle = (style: string) => {
-  // Well... another timer copy-paste
   clearInterval(statTabsTimer);
   Byond.command(`.output statbrowser:set_tabs_style ${style}`);
   statTabsTimer = setTimeout(() => {
     Byond.command(`.output statbrowser:set_tabs_style ${style}`);
   }, 1500);
+};
+
+let atempsNumber = 0;
+
+const getSettings = (store) => {
+  storage.get('panel-settings').then((settings) => {
+    if (!settings && atempsNumber < MAX_SETTINGS_LOAT_ATEMPS) {
+      atempsNumber++;
+      setTimeout(() => getSettings(store), 5);
+      return;
+    }
+    store.dispatch(loadSettings(settings || {}));
+  });
 };
 
 export const settingsMiddleware = (store) => {
@@ -104,10 +125,10 @@ export const settingsMiddleware = (store) => {
 
     if (!initialized) {
       initialized = true;
+
       setDisplayScaling();
-      storage.get('panel-settings').then((settings) => {
-        store.dispatch(loadSettings(settings));
-      });
+
+      getSettings(store);
     }
     if (type === exportSettings.type) {
       const state = store.getState();
@@ -141,7 +162,7 @@ export const settingsMiddleware = (store) => {
       setClientTheme(settings.theme);
     }
 
-    // Update stat panel personal settings
+    // Update stat panel settings
     setStatTabsStyle(settings.statTabsStyle);
 
     // Update global UI font size

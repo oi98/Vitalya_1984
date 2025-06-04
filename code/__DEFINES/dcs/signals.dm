@@ -169,6 +169,9 @@
 #define COMSIG_ATOM_BSA_BEAM "atom_bsa_beam_pass"
 	#define COMSIG_ATOM_BLOCKS_BSA_BEAM (1<<0)
 
+/// Called on [/atom/SpinAnimation()] : (speed, loops, segments, angle)
+#define COMSIG_ATOM_SPIN_ANIMATION "atom_spin_animation"
+
 /// From base of atom/setDir(): (old_dir, new_dir). Called before the direction changes
 #define COMSIG_ATOM_PRE_DIR_CHANGE "atom_pre_dir_change"
 	#define COMPONENT_ATOM_BLOCK_DIR_CHANGE (1<<0)
@@ -183,7 +186,7 @@
 
 ///from base of atom/handle_atom_del(): (atom/deleted)
 #define COMSIG_ATOM_CONTENTS_DEL "atom_contents_del"
-///from base of atom/has_gravity(): (turf/location, list/forced_gravities)
+///from base of atom/get_gravity(): (turf/location, list/forced_gravities)
 #define COMSIG_ATOM_HAS_GRAVITY "atom_has_gravity"
 ///from proc/get_rad_contents(): ()
 #define COMSIG_ATOM_RAD_PROBE "atom_rad_probe"
@@ -307,7 +310,7 @@
 
 ///from base of turf/ChangeTurf(): (path, list/new_baseturf, flags, list/transferring_comps)
 #define COMSIG_TURF_CHANGE "turf_change"
-///from base of atom/has_gravity(): (atom/asker, list/forced_gravities)
+///from base of atom/get_gravity(): (atom/asker, list/forced_gravities)
 #define COMSIG_TURF_HAS_GRAVITY "turf_has_gravity"
 ///from base of turf/multiz_turf_del(): (turf/source, direction)
 #define COMSIG_TURF_MULTIZ_DEL "turf_multiz_del"
@@ -470,6 +473,8 @@
 #define COMSIG_MOB_ITEM_ATTACK_QDELETED "mob_item_attack_qdeleted"
 ///from base of mob/RangedAttack(): (atom/A, params)
 #define COMSIG_MOB_ATTACK_RANGED "mob_attack_ranged"
+///from base of mob/ranged_secondary_attack(): (atom/target, modifiers)
+#define COMSIG_MOB_ATTACK_RANGED_SECONDARY "mob_attack_ranged_secondary"
 ///from base of mob/RangedAttack(): (atom/A, params) after being range attacked
 #define COMSIG_MOB_ATTACKED_RANGED "mob_attack_ranged"
 ///from base of /mob/throw_item(): (atom/target)
@@ -480,6 +485,8 @@
 #define COMSIG_MOB_VERB_EXAMINATE "mob_examinate"
 /// from base of /mob/proc/run_examinate(): (atom/target, list/result)
 #define COMSIG_MOB_RUN_EXAMINATE "mob_run_examinate"
+/// from /datum/element/halo_attach
+#define COMSIG_MOB_HALO_GAINED "mob_halo_gained"
 ///from base of /mob/update_sight(): ()
 #define COMSIG_MOB_UPDATE_SIGHT "mob_update_sight"
 ////from /mob/living/say(): ()
@@ -1163,6 +1170,8 @@
 ///from base of datum/action/proc/Trigger(): (datum/action)
 #define COMSIG_ACTION_TRIGGER "action_trigger"
 	#define COMPONENT_ACTION_BLOCK_TRIGGER (1<<0)
+#define COMSIG_ACTION_BUTTON_UPDATE "action_button_update"
+	#define COMSIG_ACTION_UPDATE_INTERRUPT (1<<0)
 
 //Xenobio hotkeys
 
@@ -1359,3 +1368,10 @@
 /// from start of /mob/living/handle_breathing(): (delta_time, times_fired)
 #define COMSIG_LIVING_HANDLE_BREATHING "living_handle_breathing"
 
+#define COMSIG_TICKER_GAME_STATE_CHANGED "ticker_game_state_changed"
+
+/// from start of /mob/living/simple_animal/soulscythe/Life(): (amount)
+#define COMSIG_BLOOD_LEVEL_TICK "blood_level_tick"
+
+/// Window is fully visible and we can make fragile calls
+#define COMSIG_TGUI_WINDOW_VISIBLE "tgui_window_visible"
