@@ -63,26 +63,22 @@
 	slot = INTERNAL_ORGAN_WAX_GLANDS
 	var/datum/action/innate/wryn/build_wax/build_wax = new
 	var/datum/action/innate/wryn/toggle_producing/toggle_producing = new
-	var/max_wax = 75
 	var/wax = 25
-	var/consumption = 25
-	var/message = "Вы чувствуете лёгкое бурление в восковых железах."
 	var/producing = FALSE
 
 /obj/item/organ/internal/wryn/glands/on_life()
 	if(!producing)
 		return
-	if(owner.nutrition > NUTRITION_LEVEL_STARVING && owner.getWax() < max_wax)
-		owner.adjustWax(10, max_wax)
-		owner.set_nutrition(owner.nutrition - consumption)
+	if(owner.nutrition > NUTRITION_LEVEL_STARVING && owner.getWax() < 75)
+		owner.adjustWax(10)
+		owner.set_nutrition(owner.nutrition - 25)
 		if(prob(10))
-			to_chat(owner, span_notice(message))
+			to_chat(owner, span_notice("Вы чувствуете лёгкое бурление в восковых железах."))
 
 /obj/item/organ/internal/wryn/glands/insert(mob/living/carbon/M, special = ORGAN_MANIPULATION_DEFAULT)
 	..()
 	build_wax.Grant(M)
 	toggle_producing.Grant(M)
-
 
 /obj/item/organ/internal/wryn/glands/remove(mob/living/carbon/M, special = ORGAN_MANIPULATION_DEFAULT)
 	build_wax.Remove(M)
@@ -209,29 +205,3 @@
 /obj/item/organ/external/head/wryn
 	species_type = /datum/species/wryn
 	encased = "хитиновую оболочку на голове"
-
-// implants
-
-/obj/item/organ/internal/wryn/glands/cybernetic
-	name = "wax generator"
-	desc = "Электронное устройство, предназначенное для ускоренного производства воска."
-	ru_names = list(
-		NOMINATIVE = "генератор воска",
-		GENITIVE = "генератора воска",
-		DATIVE = "генератору воска",
-		ACCUSATIVE = "генератор воска",
-		INSTRUMENTAL = "генератором воска",
-		PREPOSITIONAL = "генераторе воска"
-	)
-	gender = PLURAL
-	icon = 'icons/obj/species_organs/wryn.dmi'
-	icon_state = "cybersac"
-	item_state = "waxsac"
-	max_wax = 150
-	wax = 75
-	consumption = 10
-	origin_tech = "biotech=4"
-	status = ORGAN_ROBOT
-	message = "Вы чувствуете лёгкую дрожь в своём горле."
-	pickup_sound = 'sound/items/handling/component_pickup.ogg'
-	drop_sound = 'sound/items/handling/component_drop.ogg'

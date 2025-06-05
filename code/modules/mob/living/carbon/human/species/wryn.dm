@@ -230,10 +230,10 @@
 	else
 		..()
 
-/mob/living/carbon/human/proc/adjustWax(amount, max_wax)
+/mob/living/carbon/human/proc/adjustWax(amount)
  	var/obj/item/organ/internal/wryn/glands/glands = get_int_organ(/obj/item/organ/internal/wryn/glands)
  	if(!glands) return
- 	glands.wax = clamp(glands.wax + amount, 0, max_wax)
+ 	glands.wax = clamp(glands.wax + amount, 0, 75)
  	return 1
 
 /mob/living/carbon/human/proc/getWax()
@@ -249,16 +249,4 @@
 
 /mob/living/carbon/human/proc/get_producing()
  	var/obj/item/organ/internal/wryn/glands/glands = get_int_organ(/obj/item/organ/internal/wryn/glands)
- 	return glands ? glands.producing : FALSE
-
-// cyber
-
-/mob/living/carbon/human/proc/toggle_cyber_producing()
-	var/obj/item/organ/internal/wryn/glands/cybernetic/glands = get_int_organ(/obj/item/organ/internal/wryn/glands/cybernetic)
-	if(glands)
-		to_chat(usr, span_notice("Вы [glands.producing ? "выключаете" : "запускаете"] генератор воска"))
-		glands.producing = !glands.producing
-
-/mob/living/carbon/human/proc/get_cyber_producing()
- 	var/obj/item/organ/internal/wryn/glands/cybernetic/glands = get_int_organ(/obj/item/organ/internal/wryn/glands/cybernetic)
  	return glands ? glands.producing : FALSE

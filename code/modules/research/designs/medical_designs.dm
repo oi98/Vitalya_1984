@@ -809,17 +809,6 @@
 	build_path = /obj/item/organ/internal/lungs/cybernetic/upgraded
 	category = list("Medical")
 
-/datum/design/cybernetic_glands
-	name = "Cybernetic wax glands"
-	desc = "A pair of cybernetic wax glands."
-	id = "cybernetic_glands"
-	req_tech = list("biotech" = 5, "materials" = 5, "engineering" = 4)
-	build_type = PROTOLATHE | MECHFAB
-	materials = list(MAT_METAL = 800, MAT_GLASS = 500, MAT_SILVER = 300)
-	construction_time = 60
-	build_path = /obj/item/organ/internal/wryn/glands/cybernetic
-	category = list("Medical")
-
 /datum/design/holostretcher
 	name = "Holo Strecher"
 	desc = "A hardlight projector for transporting patients."
