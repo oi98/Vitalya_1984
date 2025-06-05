@@ -63,17 +63,59 @@
 	slot = INTERNAL_ORGAN_WAX_GLANDS
 	var/datum/action/innate/wryn/build_wax/build_wax = new
 	var/datum/action/innate/wryn/toggle_producing/toggle_producing = new
+	var/obj/item/wax_upgrader/stored_upgrade
+	var/upgrade_with = list(/obj/item/wax_upgrader)
+	var/upgraded = FALSE
+	var/max_wax = 75
 	var/wax = 25
+	var/consum = 25
 	var/producing = FALSE
 
 /obj/item/organ/internal/wryn/glands/on_life()
 	if(!producing)
 		return
-	if(owner.nutrition > NUTRITION_LEVEL_STARVING && owner.getWax() < 75)
-		owner.adjustWax(10)
-		owner.set_nutrition(owner.nutrition - 25)
+	if(owner.nutrition > NUTRITION_LEVEL_STARVING && owner.getWax() < max_wax)
+		owner.adjustWax(10, max_wax)
+		owner.set_nutrition(owner.nutrition - consum)
 		if(prob(10))
 			to_chat(owner, span_notice("Вы чувствуете лёгкое бурление в восковых железах."))
+
+/obj/item/organ/internal/wryn/glands/proc/install_upgrade(mob/living/carbon/human/user, obj/item/wax_upgrader/upgrade)
+	if(!LAZYLEN(upgrade_with))
+		balloon_alert(user, "не подлежит улучшению!")
+		return
+
+	if(!(upgrade.type in upgrade_with))
+		balloon_alert(user, "несовместимо!")
+		return
+
+	user.balloon_alert(user, "установлено")
+	max_wax = upgrade.max_wax
+	user.drop_transfer_item_to_loc(upgrade, src)
+	stored_upgrade = upgrade
+	update_appearance(UPDATE_DESC)
+
+/obj/item/organ/internal/wryn/glands/update_desc(updates)
+	. = ..()
+	if(stored_upgrade)
+		desc += " Имеет установленный расширитель."
+	else
+		desc = initial(desc)
+
+/* /obj/item/organ/internal/wryn/glands/attack_self(mob/user)
+	if(!LAZYLEN(stored_chips))
+		return
+
+	var/obj/item/translator_chip/chip
+	if(LAZYLEN(stored_chips) == 1)
+		chip = stored_chips[1]
+	else
+		var/list/chip_languages = list()
+		for(var/obj/item/translator_chip/check_chip in stored_chips)
+			chip_languages[check_chip.stored_language_rus] = check_chip
+
+		chip = tgui_input_list(user, "Выберите, чип какого языка вы хотите достать:", "Извлечение чипа", chip_languages)
+		chip = chip_languages[chip] */
 
 /obj/item/organ/internal/wryn/glands/insert(mob/living/carbon/M, special = ORGAN_MANIPULATION_DEFAULT)
 	..()
@@ -205,3 +247,22 @@
 /obj/item/organ/external/head/wryn
 	species_type = /datum/species/wryn
 	encased = "хитиновую оболочку на голове"
+
+/obj/item/wax_upgrader
+	name = "wax glands upgrader"
+	desc = "Синтетическое устройство, разработанное для улучшения эффективности работы восковых желёз. Разработан специально для Вринов."
+	icon = 'icons/obj/species_organs/wryn.dmi'
+	icon_state = "waxupd"
+	var/max_wax = 150
+	var/consum = 15
+	origin_tech = "materials=4;biotech=5;engineering=4"
+
+/obj/item/wax_upgrader/bluespace
+	name = "wax glands upgrader"
+	desc = "Синтетическое устройство, разработанное для улучшения эффективности работы восковых желёз. Разработан специально для Вринов."
+	icon_state = "waxupd_bs"
+	consum = 10
+
+/obj/item/wax_upgrader/bluespace/attack_self(mob/user)
+	. = ..()
+	max_wax = tgui_input_number(usr, "Введите максимум хранимого воска:", "количество воска", max_value = 650)

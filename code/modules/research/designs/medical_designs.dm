@@ -809,6 +809,17 @@
 	build_path = /obj/item/organ/internal/lungs/cybernetic/upgraded
 	category = list("Medical")
 
+/datum/design/wax_upgrader
+	name = "Wax glands upgrader"
+	desc = "Синтетическое устройство, разработанное для улучшения эффективности работы восковых желёз. Разработан специально для Вринов."
+	id = "glands_update"
+	req_tech = list("biotech" = 5, "materials" = 6, "engineering" = 5)
+	build_type = PROTOLATHE | MECHFAB
+	materials = list(MAT_METAL = 200, MAT_GLASS = 400, MAT_SILVER = 300)
+	construction_time = 60
+	build_path = /obj/item/wax_upgrader
+	category = list("Medical")
+
 /datum/design/holostretcher
 	name = "Holo Strecher"
 	desc = "A hardlight projector for transporting patients."

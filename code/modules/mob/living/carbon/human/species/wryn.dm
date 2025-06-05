@@ -230,7 +230,7 @@
 	else
 		..()
 
-/mob/living/carbon/human/proc/adjustWax(amount)
+/mob/living/carbon/human/proc/adjustWax(amount, max_wax)
  	var/obj/item/organ/internal/wryn/glands/glands = get_int_organ(/obj/item/organ/internal/wryn/glands)
  	if(!glands) return
  	glands.wax = clamp(glands.wax + amount, 0, 75)
