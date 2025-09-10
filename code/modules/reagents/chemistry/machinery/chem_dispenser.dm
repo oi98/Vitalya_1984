@@ -37,6 +37,8 @@
 	var/list/upgrade_reagents = list("oil", "ash", "acetone", "saltpetre", "ammonia", "diethylamine", "fuel")
 	var/list/hacked_reagents = list("toxin")
 	var/is_drink = FALSE
+	var/beaker_type = "chem" // for beaker overlay
+	pixel_y = -2
 
 /obj/machinery/chem_dispenser/get_cell()
 	return cell
@@ -370,7 +372,7 @@
 	var/static/list/beaker_cache = list()
 	var/random_pixel = rand(-10, 5)	// randomize beaker overlay position
 	if(!beaker_cache["[random_pixel]"])
-		var/mutable_appearance/beaker_olay = mutable_appearance('icons/obj/chemical.dmi', "disp_beaker")
+		var/mutable_appearance/beaker_olay = mutable_appearance('icons/obj/chemical.dmi', "[beaker_type]_beaker")
 		beaker_olay.pixel_w = random_pixel
 		beaker_cache["[random_pixel]"] = beaker_olay
 	. += beaker_cache["[random_pixel]"]
@@ -396,6 +398,8 @@
 	hacked_reagents = list("thirteenloko")
 	var/list/hackedupgrade_reagents = list("zaza") //I possess zaza
 	is_drink = TRUE
+	beaker_type = "bar"
+	pixel_y = 5
 
 /obj/machinery/chem_dispenser/soda/Initialize(mapload)
 	. = ..()
@@ -446,11 +450,14 @@
 		PREPOSITIONAL = "раздатчике алкоголя"
 	)
 	icon_state = "booze_dispenser"
+	base_icon_state = "bar"
 	ui_title = "Наливатель Бухла 9001"
 	dispensable_reagents = list("ice", "cream", "cider", "beer", "kahlua", "whiskey", "wine", "vodka", "gin", "rum", "tequila", "vermouth", "cognac", "ale", "mead", "synthanol", "jagermeister", "bluecuracao", "sambuka", "schnaps", "sheridan")
 	upgrade_reagents = list("iced_beer", "irishcream", "manhattan", "antihol", "synthignon", "bravebull")
 	hacked_reagents = list("goldschlager", "patron", "absinthe", "ethanol", "nothing", "sake", "bitter", "champagne", "aperol", "noalco_beer")
 	is_drink = TRUE
+	beaker_type = "bar"
+	pixel_y = 5
 
 /obj/machinery/chem_dispenser/beer/Initialize(mapload)
 	. = ..()
