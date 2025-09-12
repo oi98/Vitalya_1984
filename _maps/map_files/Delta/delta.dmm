@@ -78637,7 +78637,9 @@
 /obj/structure/sign/botany{
 	pixel_y = 32
 	},
-/obj/machinery/chem_dispenser/botanical,
+/obj/machinery/chem_dispenser/botanical{
+	pixel_y = -1
+	},
 /obj/effect/decal/warning_stripes/yellow,
 /obj/effect/decal/warning_stripes/green,
 /turf/simulated/floor/plasteel{
