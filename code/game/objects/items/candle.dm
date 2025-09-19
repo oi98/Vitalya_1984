@@ -20,6 +20,8 @@
 	light_system = MOVABLE_LIGHT
 	light_range = CANDLE_LUM
 	light_on = FALSE
+	/// color of the candle
+	var/candle_color = "red"
 
 
 /obj/item/candle/Initialize(mapload)
@@ -36,9 +38,9 @@
 
 /obj/item/candle/update_icon_state()
 	if(flickering)
-		icon_state = "candle[wax_index]_flicker"
+		icon_state = "[candle_color]_candle[wax_index]_flicker"
 	else
-		icon_state = "candle[wax_index][lit ? "_lit" : ""]"
+		icon_state = "[color]_candle[wax_index][lit ? "_lit" : ""]"
 
 
 /obj/item/candle/can_enter_storage(obj/item/storage/S, mob/user)
@@ -162,6 +164,29 @@
 	infinite = FALSE
 	wax = 1 // next process will burn it out
 
+/obj/item/candle/blue
+	name = "blue candle"
+	desc = "In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself."
+	icon_state = "blue_candle1"
+	item_state = "candle1"
+	light_color = "#3737e0"
+	candle_color = "blue"
+
+/obj/item/candle/green
+	name = "green candle"
+	desc = "In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself."
+	icon_state = "green_candle1"
+	item_state = "candle1"
+	light_color = "#6fe037"
+	candle_color = "green"
+
+/obj/item/candle/purple
+	name = "purple candle"
+	desc = "In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself."
+	icon_state = "purple_candle1"
+	item_state = "candle1"
+	light_color = "#8337e0"
+	candle_color = "purple"
 
 #undef TALL_CANDLE
 #undef MID_CANDLE

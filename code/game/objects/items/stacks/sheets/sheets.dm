@@ -1,5 +1,6 @@
 /obj/item/stack/sheet
 	name = "sheet"
+	icon = 'icons/obj/sheets.dmi'
 	w_class = WEIGHT_CLASS_NORMAL
 	full_w_class = WEIGHT_CLASS_NORMAL
 	force = 5

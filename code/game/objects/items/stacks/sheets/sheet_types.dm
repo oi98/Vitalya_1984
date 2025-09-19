@@ -908,3 +908,39 @@ GLOBAL_LIST_INIT(gingerbread_recipes, list(
 /obj/item/stack/sheet/gingerbread/Initialize(mapload, new_amount, merge = TRUE)
 	. = ..()
 	recipes = GLOB.gingerbread_recipes
+
+/*
+ * Wax
+ */
+
+GLOBAL_LIST_INIT(wax_recipes, list(
+	new /datum/stack_recipe_list("Candles", list(
+		new /datum/stack_recipe("Red candle", /obj/item/candle),
+		new /datum/stack_recipe("blue candle", /obj/item/candle/blue),
+		new /datum/stack_recipe("green candle", /obj/item/candle/green),
+		new /datum/stack_recipe("purple candle", /obj/item/candle/purple),
+		//вообще, стоит наверное убрать эти рецепты и заменить их возможностью перекрасить коробку,
+		//как это сделано для paperbag в boxes.dm
+	)),
+))
+
+/obj/item/stack/sheet/wax
+	name = "wax"
+	desc = "Несколько свежих листов воска."
+	icon_state = "sheet-wax"
+	singular_name = "wax list"
+	icon = 'icons/obj/sheets.dmi'
+	sheettype = "wax"
+	force = 1
+	throwforce = 2
+	merge_type = /obj/item/stack/sheet/wax
+
+/obj/item/stack/sheet/wax/fifty
+	amount = 50
+
+/obj/item/stack/sheet/wax/five
+	amount = 5
+
+/obj/item/stack/sheet/wax/Initialize(mapload, new_amount, merge = TRUE)
+	. = ..()
+	recipes = GLOB.wax_recipes
