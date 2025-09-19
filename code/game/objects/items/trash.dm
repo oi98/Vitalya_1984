@@ -93,7 +93,7 @@
 /obj/item/trash/candle
 	name = "candle"
 	icon = 'icons/obj/candle.dmi'
-	icon_state = "candle4"
+	icon_state = "candle4_greyscale"
 
 /obj/item/trash/liquidfood
 	name = "\"LiquidFood\" ration"

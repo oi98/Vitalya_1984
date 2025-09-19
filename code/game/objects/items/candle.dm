@@ -3,10 +3,10 @@
 #define SHORT_CANDLE 3
 
 /obj/item/candle
-	name = "red candle"
+	name = "candle"
 	desc = "In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself."
 	icon = 'icons/obj/candle.dmi'
-	icon_state = "candle1"
+	icon_state = "candle1_greyscale"
 	item_state = "candle1"
 	w_class = WEIGHT_CLASS_TINY
 	var/wax = 200
@@ -16,12 +16,13 @@
 	var/infinite = FALSE
 	var/start_lit = FALSE
 	var/flickering = FALSE
-	light_color = "#E09D37"
+	color = COLOR_BEIGE
+	light_color = COLOR_LIGHT_ORANGE
 	light_system = MOVABLE_LIGHT
 	light_range = CANDLE_LUM
 	light_on = FALSE
-	/// color of the candle
-	var/candle_color = "red"
+	/// flame overlay
+	var/mutable_appearance/overlay
 
 
 /obj/item/candle/Initialize(mapload)
@@ -35,13 +36,15 @@
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
+/obj/item/candle/update_overlays()
+	. = ..()
+	if(flickering)
+		. += mutable_appearance(icon, "flickering_light[wax_index]")
+	if(lit)
+		. += mutable_appearance(icon, "light[wax_index]")
 
 /obj/item/candle/update_icon_state()
-	if(flickering)
-		icon_state = "[candle_color]_candle[wax_index]_flicker"
-	else
-		icon_state = "[color]_candle[wax_index][lit ? "_lit" : ""]"
-
+	icon_state = "candle[wax_index]_greyscale"
 
 /obj/item/candle/can_enter_storage(obj/item/storage/S, mob/user)
 	if(lit)
@@ -74,12 +77,12 @@
 /obj/item/candle/proc/light(show_message)
 	if(lit)
 		return FALSE
-	lit = 1
+	lit = TRUE
 	if(show_message)
 		usr?.visible_message(show_message)
 	set_light_on(TRUE)
 	START_PROCESSING(SSobj, src)
-	update_icon(UPDATE_ICON_STATE)
+	update_overlays()
 	return TRUE
 
 
@@ -115,9 +118,10 @@
 		wax--
 		if(wax_index != SHORT_CANDLE) // It's not at its shortest
 			if(update_wax_index())
+				update_overlays()
 				update_icon(UPDATE_ICON_STATE)
 	if(!wax)
-		new/obj/item/trash/candle(loc)
+		new/obj/item/trash/candle(loc).color = color
 		if(ismob(loc))
 			var/mob/holder = loc
 			holder.drop_item_ground(src, force = TRUE) //src is being deleted anyway
@@ -130,7 +134,7 @@
 /obj/item/candle/proc/unlight()
 	if(lit)
 		lit = FALSE
-		update_icon(UPDATE_ICON_STATE)
+		cut_overlay()
 		set_light_on(FALSE)
 
 
@@ -138,6 +142,7 @@
 	if(lit)
 		user.visible_message("<span class='notice'>[user] snuffs out [src].</span>")
 		unlight()
+
 
 
 /obj/item/candle/get_spooked()
@@ -166,29 +171,20 @@
 
 /obj/item/candle/blue
 	name = "blue candle"
-	desc = "In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself."
-	icon_state = "blue_candle1"
-	item_state = "candle1"
-	light_color = "#3737e0"
-	candle_color = "blue"
+	color = COLOR_BLUE_GRAY
+	light_color = COLOR_BLUE_LIGHT
 
 /obj/item/candle/green
 	name = "green candle"
-	desc = "In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself."
-	icon_state = "green_candle1"
-	item_state = "candle1"
-	light_color = "#6fe037"
-	candle_color = "green"
+	color = COLOR_GREEN_GRAY
+	light_color = COLOR_GREEN
 
 /obj/item/candle/purple
 	name = "purple candle"
-	desc = "In Greek myth, Prometheus stole fire from the Gods and gave it to humankind. The jewelry he kept for himself."
-	icon_state = "purple_candle1"
-	item_state = "candle1"
-	light_color = "#8337e0"
-	candle_color = "purple"
+	color = COLOR_PURPLE_GRAY
+	light_color = COLOR_BLUE_LIGHT
 
-#undef TALL_CANDLE
-#undef MID_CANDLE
-#undef SHORT_CANDLE
-
+/obj/item/candle/red
+	name = "red candle"
+	color = COLOR_RED_LIGHT
+	light_color = COLOR_RED_LIGHT
