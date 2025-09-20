@@ -502,6 +502,20 @@
 #define	PIPE_COLOR_YELLOW "#eebb10"
 #define	PIPE_COLOR_PURPLE "#5c1ec0"
 
+// candle colours.
+#define CANDLE_COLOR_DEFAULT "#fbf087"
+#define CANDLE_COLOR_RED "#b52121"
+#define CANDLE_COLOR_BLUE "#2525b3"
+#define CANDLE_COLOR_PURPLE "#842db7"
+#define CANDLE_COLOR_GREEN "#2aa22e"
+
+// candle light colours.
+#define CANDLE_LIGHT_COLOR_DEFAULT "#fff56a"
+#define CANDLE_LIGHT_COLOR_RED "#ff6a6a"
+#define CANDLE_LIGHT_COLOR_BLUE "#6d6aff"
+#define CANDLE_LIGHT_COLOR_PURPLE "#cb6aff"
+#define CANDLE_LIGHT_COLOR_GREEN "#6aff72"
+
 GLOBAL_LIST_INIT(cable_colors, list(
 	CABLE_COLOR_BLUE = CABLE_HEX_COLOR_BLUE,
 	CABLE_COLOR_CYAN = CABLE_HEX_COLOR_CYAN,

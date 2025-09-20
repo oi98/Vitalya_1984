@@ -9,20 +9,18 @@
 	icon_state = "candle1_greyscale"
 	item_state = "candle1"
 	w_class = WEIGHT_CLASS_TINY
-	var/wax = 200
+	var/fuel = 200
 	/// Index for the icon state
-	var/wax_index = TALL_CANDLE
+	var/fuel_index = TALL_CANDLE
 	var/lit = FALSE
 	var/infinite = FALSE
 	var/start_lit = FALSE
 	var/flickering = FALSE
-	color = COLOR_BEIGE
-	light_color = COLOR_LIGHT_ORANGE
+	color = CANDLE_COLOR_DEFAULT
+	light_color = CANDLE_LIGHT_COLOR_DEFAULT
 	light_system = MOVABLE_LIGHT
 	light_range = CANDLE_LUM
 	light_on = FALSE
-	/// flame overlay
-	var/mutable_appearance/overlay
 
 
 /obj/item/candle/Initialize(mapload)
@@ -39,12 +37,12 @@
 /obj/item/candle/update_overlays()
 	. = ..()
 	if(flickering)
-		. += mutable_appearance(icon, "flickering_light[wax_index]")
+		. += mutable_appearance(icon, "flickering_light[fuel_index]")
 	if(lit)
-		. += mutable_appearance(icon, "light[wax_index]")
+		. += mutable_appearance(icon, "light[fuel_index]")
 
 /obj/item/candle/update_icon_state()
-	icon_state = "candle[wax_index]_greyscale"
+	icon_state = "candle[fuel_index]_greyscale"
 
 /obj/item/candle/can_enter_storage(obj/item/storage/S, mob/user)
 	if(lit)
@@ -82,45 +80,45 @@
 		usr?.visible_message(show_message)
 	set_light_on(TRUE)
 	START_PROCESSING(SSobj, src)
-	update_overlays()
+	update_icon(UPDATE_OVERLAYS)
 	return TRUE
 
-
-/obj/item/candle/proc/update_wax_index()
-	var/new_wax_index
-	if(wax > 150)
-		new_wax_index = TALL_CANDLE
-	else if(wax > 80)
-		new_wax_index = MID_CANDLE
+/obj/item/candle/proc/update_fuel_index()
+	var/new_fuel_index
+	if(fuel > 150)
+		new_fuel_index = TALL_CANDLE
+	else if(fuel > 80)
+		new_fuel_index = MID_CANDLE
 	else
-		new_wax_index = SHORT_CANDLE
-	if(wax_index != new_wax_index)
-		wax_index = new_wax_index
+		new_fuel_index = SHORT_CANDLE
+	if(fuel_index != new_fuel_index)
+		fuel_index = new_fuel_index
 		return TRUE
 	return FALSE
 
 
 /obj/item/candle/proc/start_flickering()
 	flickering = TRUE
-	update_icon(UPDATE_ICON_STATE)
+	update_icon(UPDATE_OVERLAYS)
 	addtimer(CALLBACK(src, PROC_REF(stop_flickering)), 4 SECONDS, TIMER_UNIQUE)
 
 
 /obj/item/candle/proc/stop_flickering()
 	flickering = FALSE
-	update_icon(UPDATE_ICON_STATE)
+	cut_overlays()
 
 
 /obj/item/candle/process()
 	if(!lit)
 		return
 	if(!infinite)
-		wax--
-		if(wax_index != SHORT_CANDLE) // It's not at its shortest
-			if(update_wax_index())
-				update_overlays()
+		fuel--
+		if(fuel_index != SHORT_CANDLE) // It's not at its shortest
+			if(update_fuel_index())
+				cut_overlays()
+				update_icon(UPDATE_OVERLAYS)
 				update_icon(UPDATE_ICON_STATE)
-	if(!wax)
+	if(!fuel)
 		new/obj/item/trash/candle(loc).color = color
 		if(ismob(loc))
 			var/mob/holder = loc
@@ -134,7 +132,7 @@
 /obj/item/candle/proc/unlight()
 	if(lit)
 		lit = FALSE
-		cut_overlay()
+		cut_overlays()
 		set_light_on(FALSE)
 
 
@@ -142,7 +140,6 @@
 	if(lit)
 		user.visible_message("<span class='notice'>[user] snuffs out [src].</span>")
 		unlight()
-
 
 
 /obj/item/candle/get_spooked()
@@ -153,8 +150,15 @@
 	return FALSE
 
 
+/obj/item/candle/extinguish_light(force = FALSE)
+	if(!force)
+		return
+	infinite = FALSE
+	fuel = 1 // next process will burn it out
+
+
 /obj/item/candle/eternal
-	desc = "A candle. This one seems to have an odd quality about the wax."
+	desc = "A candle. This one seems to have an odd quality about the fuel."
 	infinite = TRUE
 
 
@@ -162,29 +166,27 @@
 	desc = "A candle. It smells like magic, so that would explain why it burns brighter."
 	start_lit = TRUE
 
-
-/obj/item/candle/extinguish_light(force = FALSE)
-	if(!force)
-		return
-	infinite = FALSE
-	wax = 1 // next process will burn it out
-
 /obj/item/candle/blue
 	name = "blue candle"
-	color = COLOR_BLUE_GRAY
-	light_color = COLOR_BLUE_LIGHT
+	color = CANDLE_COLOR_BLUE
+	light_color = CANDLE_LIGHT_COLOR_BLUE
 
 /obj/item/candle/green
 	name = "green candle"
-	color = COLOR_GREEN_GRAY
-	light_color = COLOR_GREEN
+	color = CANDLE_COLOR_GREEN
+	light_color = CANDLE_LIGHT_COLOR_GREEN
 
 /obj/item/candle/purple
 	name = "purple candle"
-	color = COLOR_PURPLE_GRAY
-	light_color = COLOR_BLUE_LIGHT
+	color = CANDLE_COLOR_PURPLE
+	light_color = CANDLE_LIGHT_COLOR_PURPLE
 
 /obj/item/candle/red
 	name = "red candle"
-	color = COLOR_RED_LIGHT
-	light_color = COLOR_RED_LIGHT
+	color = CANDLE_COLOR_RED
+	light_color = CANDLE_LIGHT_COLOR_RED
+
+/obj/item/candle/church
+	name = "church candle"
+	color = CANDLE_COLOR_RED
+	light_color = CANDLE_LIGHT_COLOR_DEFAULT
