@@ -1174,7 +1174,7 @@
 /area/ruin/space/spacehotelv1/restoraunt2)
 "ja" = (
 /obj/structure/table/wood/fancy,
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /obj/item/reagent_containers/food/condiment/peppermill{
@@ -1734,7 +1734,7 @@
 	pixel_x = 9;
 	pixel_y = 12
 	},
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /turf/simulated/floor/plasteel/grimy,
@@ -1862,7 +1862,7 @@
 /turf/simulated/floor/wood,
 /area/ruin/space/spacehotelv1/guestroom3)
 "on" = (
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /obj/item/reagent_containers/food/condiment/peppermill{
@@ -2146,7 +2146,7 @@
 	pixel_x = 9;
 	pixel_y = 12
 	},
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /turf/simulated/floor/wood,
@@ -3888,7 +3888,7 @@
 	pixel_x = 9;
 	pixel_y = 12
 	},
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /obj/structure/table/wood/fancy,
@@ -5054,7 +5054,7 @@
 /turf/simulated/floor/wood,
 /area/ruin/space/spacehotelv1/forehallway)
 "KZ" = (
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /obj/item/reagent_containers/food/condiment/peppermill{
@@ -5243,7 +5243,7 @@
 	pixel_x = 9;
 	pixel_y = 6
 	},
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /obj/structure/table/wood/fancy/black,
@@ -7189,7 +7189,7 @@
 /area/ruin/space/spacehotelv1/entryhallway)
 "Zn" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /obj/item/reagent_containers/food/condiment/peppermill{
@@ -7225,7 +7225,7 @@
 	pixel_x = 9;
 	pixel_y = 12
 	},
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	pixel_y = 4
 	},
 /obj/structure/table/wood/fancy,

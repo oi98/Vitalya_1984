@@ -226,3 +226,11 @@
 	materials = list(MAT_BIOMASS = 50)
 	build_path = /obj/item/storage/fancy/rollingpapers
 	category = list("initial","Organic Materials")
+
+/datum/design/wax
+	name = "Wax sheet"
+	id = "wax_sheet"
+	build_type = BIOGENERATOR
+	materials = list(MAT_BIOMASS = 50)
+	build_path = /obj/item/stack/sheet/wax
+	category = list("initial","Organic Materials")

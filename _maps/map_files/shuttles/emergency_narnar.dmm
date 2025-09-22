@@ -222,7 +222,7 @@
 /turf/simulated/floor/engine/cult,
 /area/shuttle/escape)
 "aH" = (
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/engine/cult,
 /area/shuttle/escape)
 "aI" = (

@@ -48,7 +48,7 @@
 /area/ruin/unpowered)
 "qE" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /obj/item/whetstone/cult,
 /turf/simulated/floor/engine/cult,
 /area/ruin/unpowered)
@@ -286,7 +286,7 @@
 /area/ruin/unpowered)
 "TZ" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/engine/cult,
 /area/ruin/unpowered)
 "Uv" = (
@@ -318,7 +318,7 @@
 /area/ruin/unpowered)
 "Yt" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /obj/effect/temp_visual/cult/sparks,
 /turf/simulated/floor/engine/cult,
 /area/ruin/unpowered)

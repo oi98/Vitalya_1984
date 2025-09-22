@@ -183,7 +183,7 @@
 /area/ruin/unpowered)
 "aG" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/wood,
 /area/ruin/unpowered)
 "aH" = (

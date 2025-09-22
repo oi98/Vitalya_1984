@@ -18,6 +18,7 @@ GLOBAL_LIST_INIT(rod_recipes, list ( \
 	name = "metal rod"
 	desc = "Some rods. Can be used for building, or something."
 	singular_name = "metal rod"
+	icon = 'icons/obj/sheets.dmi'
 	icon_state = "rods"
 	item_state = "rods"
 	flags = CONDUCT
@@ -94,7 +95,7 @@ GLOBAL_LIST_INIT(rod_recipes, list ( \
 	name = "fireproof rods"
 	desc = "Жаропрочные стержни, способные выдержать жар в несколько тысяч градусов. Могут использоваться для строительства мостов над лавой."
 	singular_name = "fireproof rod"
-	icon = 'icons/obj/items.dmi'
+	icon = 'icons/obj/sheets.dmi'
 	icon_state = "f_rods"
 	item_state = "f_rods"
 	flags = CONDUCT

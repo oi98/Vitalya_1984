@@ -442,7 +442,7 @@
 	dir = 4
 	},
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/indestructible{
 	icon_state = "grimy"
 	},
@@ -1030,7 +1030,7 @@
 /area/centcom/supply)
 "aRK" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/indestructible{
 	icon_state = "wood"
 	},
@@ -9244,7 +9244,7 @@
 /area/ussp_ship)
 "hak" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /obj/structure/window/reinforced,
 /turf/simulated/floor/indestructible{
 	icon = 'icons/turf/floors/carpet_black.dmi';

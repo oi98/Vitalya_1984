@@ -142,7 +142,7 @@
 
 /obj/item/storage/fancy/candle_box
 	name = "Candle pack"
-	desc = "A pack of red candles."
+	desc = "Упаковка красных восковых свечек."
 	icon = 'icons/obj/candle.dmi'
 	icon_state = "candlebox5"
 	icon_type = "candle"
@@ -152,17 +152,27 @@
 	slot_flags = ITEM_SLOT_BELT
 	use_sound = SFX_PATCHPACK
 
+/obj/item/storage/fancy/candle_box/get_ru_names()
+	return list(
+		NOMINATIVE = "упаковка свечек",
+		GENITIVE = "упаковки свечек",
+		DATIVE = "упаковке свечек",
+		ACCUSATIVE = "упаковку свечек",
+		INSTRUMENTAL = "упаковкой свечек",
+		PREPOSITIONAL = "упаковке свечек"
+	)
+
 /obj/item/storage/fancy/candle_box/full/populate_contents()
 	for(var/I = 1 to storage_slots)
-		new /obj/item/candle(src)
+		new /obj/item/candle/red/church(src)
 
 /obj/item/storage/fancy/candle_box/eternal
 	name = "Eternal Candle pack"
-	desc = "A pack of red candles made with a special wax."
+	desc = "Упаковка красных свечек из необычного воска."
 
 /obj/item/storage/fancy/candle_box/eternal/populate_contents()
 	for(var/I = 1 to storage_slots)
-		new /obj/item/candle/eternal(src)
+		new /obj/item/candle/red/church/eternal(src)
 
 /*
  * MARK: Crayon Box

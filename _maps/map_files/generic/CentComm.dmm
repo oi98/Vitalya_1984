@@ -6827,7 +6827,7 @@
 /area/shuttle/escape)
 "dhe" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/wood,
 /area/centcom/zone1)
 "dhK" = (
@@ -13311,7 +13311,7 @@
 	dir = 4
 	},
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/wood/fancy/light,
 /area/centcom/evac)
 "glc" = (
@@ -37655,7 +37655,7 @@
 /area/centcom/bridge)
 "rqr" = (
 /obj/structure/table/wood/fancy/royalblack,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /obj/item/reagent_containers/food/drinks/drinkingglass{
 	pixel_x = 6;
 	pixel_y = 9
@@ -43392,7 +43392,7 @@
 /area/shuttle/funeral)
 "tNv" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /obj/structure/window/reinforced,
 /turf/simulated/floor/carpet/black,
 /area/centcom/evac)
@@ -47182,7 +47182,7 @@
 /area/centcom/evac)
 "vAg" = (
 /obj/structure/table/wood/fancy/black,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /obj/machinery/light/small{
 	dir = 8
 	},

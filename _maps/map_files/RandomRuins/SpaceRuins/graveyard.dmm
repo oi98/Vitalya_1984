@@ -622,7 +622,7 @@
 /area/ruin/space/graveyard/church)
 "nW" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal{
+/obj/item/candle/red/church/eternal{
 	lit = 1
 	},
 /turf/simulated/floor/carpet,

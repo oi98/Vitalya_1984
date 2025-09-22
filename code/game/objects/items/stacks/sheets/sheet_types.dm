@@ -587,7 +587,6 @@ GLOBAL_LIST_INIT(fake_brass_recipes, list(
 	singular_name = "brass sheet"
 	icon_state = "sheet-brass"
 	item_state = "sheet-brass"
-	icon = 'icons/obj/items.dmi'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	throwforce = 10
 	max_amount = 50
@@ -639,7 +638,6 @@ GLOBAL_LIST_INIT(fake_brass_recipes, list(
 	singular_name = "brass sheet"
 	icon_state = "sheet-brass"
 	item_state = "sheet-brass"
-	icon = 'icons/obj/items.dmi'
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	throwforce = 10
 	max_amount = 50
@@ -834,7 +832,6 @@ GLOBAL_LIST_INIT(bamboo_recipes, list(
 	singular_name = "cut bamboo"
 	icon_state = "sheet-bamboo"
 	//item_state = "sheet-bamboo"
-	icon = 'icons/obj/items.dmi'
 	sheettype = "bamboo"
 	force = 10
 	throwforce = 10
@@ -860,7 +857,6 @@ GLOBAL_LIST_INIT(cheese_recipes, list(
 	desc = "A stack of cheese that seems sturdier than regular cheese."
 	icon_state = "sheet-cheese"
 	//item_state = "sheet-cheese"
-	icon = 'icons/obj/items.dmi'
 	singular_name = "reinforced cheese block"
 	sheettype = "cheese"
 	force = 5
@@ -893,7 +889,6 @@ GLOBAL_LIST_INIT(gingerbread_recipes, list(
 	icon_state = "sheet-gingerbread"
 	//item_state = "sheet-gingerbread"
 	singular_name = "gingerbread block"
-	icon = 'icons/obj/items.dmi'
 	sheettype = "gingerbread"
 	force = 1
 	throwforce = 2
@@ -915,12 +910,11 @@ GLOBAL_LIST_INIT(gingerbread_recipes, list(
 
 GLOBAL_LIST_INIT(wax_recipes, list(
 	new /datum/stack_recipe_list("Candles", list(
-		new /datum/stack_recipe("Red candle", /obj/item/candle),
-		new /datum/stack_recipe("blue candle", /obj/item/candle/blue),
-		new /datum/stack_recipe("green candle", /obj/item/candle/green),
-		new /datum/stack_recipe("purple candle", /obj/item/candle/purple),
-		//вообще, стоит наверное убрать эти рецепты и заменить их возможностью перекрасить коробку,
-		//как это сделано для paperbag в boxes.dm
+		new /datum/stack_recipe("Candle", /obj/item/candle),
+		new /datum/stack_recipe("Blue candle", /obj/item/candle/blue),
+		new /datum/stack_recipe("Green candle", /obj/item/candle/green),
+		new /datum/stack_recipe("Red candle", /obj/item/candle/red),
+		new /datum/stack_recipe("Church candle", /obj/item/candle/red/church),
 	)),
 ))
 
@@ -929,7 +923,6 @@ GLOBAL_LIST_INIT(wax_recipes, list(
 	desc = "Несколько свежих листов воска."
 	icon_state = "sheet-wax"
 	singular_name = "wax list"
-	icon = 'icons/obj/sheets.dmi'
 	sheettype = "wax"
 	force = 1
 	throwforce = 2

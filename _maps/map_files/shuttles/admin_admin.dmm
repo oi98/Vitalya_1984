@@ -451,7 +451,7 @@
 /area/shuttle/administration)
 "hG" = (
 /obj/structure/table/wood/fancy/royalblack,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /obj/item/reagent_containers/food/drinks/drinkingglass{
 	pixel_x = 6;
 	pixel_y = 9

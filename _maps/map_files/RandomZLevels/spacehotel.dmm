@@ -542,7 +542,7 @@
 	},
 /area/awaymission)
 "cr" = (
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/indestructible{
 	icon_state = "asteroid";
 	name = "cave"

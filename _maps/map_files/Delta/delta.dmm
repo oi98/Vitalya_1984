@@ -90358,7 +90358,7 @@
 /area/medical/surgery/north)
 "pQv" = (
 /obj/structure/table/wood,
-/obj/item/candle/eternal,
+/obj/item/candle/red/church/eternal,
 /turf/simulated/floor/wood,
 /area/maintenance/asmaint4)
 "pQN" = (

@@ -9,9 +9,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 LIGHTERS ARE IN LIGHTERS.DM
 */
 
-//////////////////
-//FINE SMOKABLES//
-//////////////////
+// MARK: CIGARETTES
 
 /obj/item/clothing/mask/cigarette
 	name = "cigarette"
@@ -425,9 +423,7 @@ LIGHTERS ARE IN LIGHTERS.DM
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
 
-////////////
-// CIGARS //
-////////////
+// MARK: CIGARS
 
 /obj/item/clothing/mask/cigarette/cigar
 	name = "Premium Cigar"
@@ -552,9 +548,7 @@ LIGHTERS ARE IN LIGHTERS.DM
 	return ..()
 
 
-/////////////////
-//SMOKING PIPES//
-/////////////////
+// MARK: SMOKING PIPES
 
 /obj/item/clothing/mask/cigarette/pipe
 	name = "smoking pipe"
@@ -721,9 +715,7 @@ LIGHTERS ARE IN LIGHTERS.DM
 	else
 		..()
 
-//////////////
-//HOLO CIGAR//
-//////////////
+// MARK: HOLOCIGAR
 
 /obj/item/clothing/mask/holo_cigar
 	name = "Holo-Cigar"
