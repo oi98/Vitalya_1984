@@ -587,6 +587,9 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	if(cmineral && name_by_cmineral)
 		name = "[cmineral] coin"
 
+/obj/item/coin/get_item_credit_value()
+	return credits
+
 /obj/item/coin/gold
 	cmineral = "gold"
 	icon_state = "coin_gold_heads"
@@ -694,12 +697,12 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 
 /obj/item/coin/antagtoken/syndicate/get_ru_names()
 	return list(
-		NOMINATIVE = "монета Синдиката",
-		GENITIVE = "монеты Синдиката",
-		DATIVE = "монете Синдиката",
-		ACCUSATIVE = "монету Синдиката",
-		INSTRUMENTAL = "монетой Синдиката",
-		PREPOSITIONAL = "монете Синдиката",
+		NOMINATIVE = "монета \"Синдиката\"",
+		GENITIVE = "монеты \"Синдиката\"",
+		DATIVE = "монете \"Синдиката\"",
+		ACCUSATIVE = "монету \"Синдиката\"",
+		INSTRUMENTAL = "монетой \"Синдиката\"",
+		PREPOSITIONAL = "монете \"Синдиката\"",
 	)
 
 /obj/item/coin/update_overlays()
