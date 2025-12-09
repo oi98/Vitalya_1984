@@ -11,11 +11,11 @@ The colossus has a degree of sentience, proving this in speech during its attack
 It acts as a melee creature, chasing down and attacking its target while also using different attacks to augment its power that increase as it takes damage.
 
 The colossus' true danger lies in its ranged capabilities. It fires immensely damaging death bolts that penetrate all armor in a variety of ways:
- 1. The colossus fires death bolts in alternating patterns: the cardinal directions and the diagonal directions.
- 2. The colossus fires death bolts in a shotgun-like pattern, instantly downing anything unfortunate enough to be hit by all of them.
- 3. The colossus fires a spiral of death bolts.
+	1. The colossus fires death bolts in alternating patterns: the cardinal directions and the diagonal directions.
+	2. The colossus fires death bolts in a shotgun-like pattern, instantly downing anything unfortunate enough to be hit by all of them.
+	3. The colossus fires a spiral of death bolts.
 At 33% health, the colossus gains an additional attack:
- 4. The colossus fires two spirals of death bolts, spinning in opposite directions.
+	4. The colossus fires two spirals of death bolts, spinning in opposite directions.
 
 When a colossus dies, it leaves behind a chunk of glowing crystal known as a black box. Anything placed inside will carry over into future rounds.
 For instance, you could place a bag of holding into the black box, and then kill another colossus next round and retrieve the bag of holding from inside.
@@ -33,7 +33,6 @@ Difficulty: Very Hard
 	attack_sound = 'sound/magic/ratvar_attack.ogg'
 	icon_state = "eva"
 	icon_living = "eva"
-	icon_dead = ""
 	friendly = "пристально смотрит"
 	icon = 'icons/mob/lavaland/96x96megafauna.dmi'
 	speak_emote = list("рычит")
@@ -49,17 +48,20 @@ Difficulty: Very Hard
 	del_on_death = TRUE
 	universal_speak = TRUE
 	tts_seed = null
-	medal_type = BOSS_MEDAL_COLOSSUS
-	score_type = COLOSSUS_SCORE
+	achievement_type = /datum/award/achievement/boss/colossus_kill
+	crusher_achievement_type = /datum/award/achievement/boss/colossus_crusher
+	score_achievement_type = /datum/award/score/colossus_score
 	crusher_loot = list(/obj/structure/closet/crate/necropolis/colossus/crusher)
 	loot = list(/obj/structure/closet/crate/necropolis/colossus)
 	deathmessage = "распадается, оставляя после себя светящееся ядро."
 	death_sound = 'sound/misc/demon_dies.ogg'
 	enraged_loot = /obj/item/disk/fauna_research/colossus
-	attack_action_types = list(/datum/action/innate/megafauna_attack/spiral_attack,
-							   /datum/action/innate/megafauna_attack/aoe_attack,
-							   /datum/action/innate/megafauna_attack/shotgun,
-							   /datum/action/innate/megafauna_attack/alternating_cardinals)
+	attack_action_types = list(
+		/datum/action/innate/megafauna_attack/spiral_attack,
+		/datum/action/innate/megafauna_attack/aoe_attack,
+		/datum/action/innate/megafauna_attack/shotgun,
+		/datum/action/innate/megafauna_attack/alternating_cardinals,
+	)
 	/// Have we used our final attack yet?
 	var/final_available = TRUE
 
@@ -70,7 +72,7 @@ Difficulty: Very Hard
 		DATIVE = "Колоссу",
 		ACCUSATIVE = "Колосса",
 		INSTRUMENTAL = "Колоссом",
-		PREPOSITIONAL = "Колоссе"
+		PREPOSITIONAL = "Колоссе",
 	)
 
 /mob/living/simple_animal/hostile/megafauna/colossus/Initialize(mapload)
@@ -86,28 +88,28 @@ Difficulty: Very Hard
 
 /datum/action/innate/megafauna_attack/spiral_attack
 	name = "Спиральные выстрелы"
-	icon_icon = 'icons/mob/actions/actions.dmi'
+	button_icon = 'icons/mob/actions/actions.dmi'
 	button_icon_state = "sniper_zoom"
 	chosen_message = span_colossus("Вы стреляете по спирали.")
 	chosen_attack_num = 1
 
 /datum/action/innate/megafauna_attack/aoe_attack
 	name = "Во всех направлениях"
-	icon_icon = 'icons/effects/effects.dmi'
+	button_icon = 'icons/effects/effects.dmi'
 	button_icon_state = "at_shield2"
 	chosen_message = span_colossus("Вы стреляете во всех направлениях.")
 	chosen_attack_num = 2
 
 /datum/action/innate/megafauna_attack/shotgun
 	name = "Выстрел дробью"
-	icon_icon = 'icons/obj/weapons/projectile.dmi'
+	button_icon = 'icons/obj/weapons/projectile.dmi'
 	button_icon_state = "shotgun"
 	chosen_message = span_colossus("Вы выстрелите дробью туда, куда нажмёте.")
 	chosen_attack_num = 3
 
 /datum/action/innate/megafauna_attack/alternating_cardinals
 	name = "Чередующиеся выстрелы"
-	icon_icon = 'icons/obj/weapons/projectile.dmi'
+	button_icon = 'icons/obj/weapons/projectile.dmi'
 	button_icon_state = "pistol"
 	chosen_message = span_colossus("Вы стреляете в чередующихся кардинальных направлениях.")
 	chosen_attack_num = 4
@@ -171,7 +173,7 @@ Difficulty: Very Hard
 	if(!ishuman(L))
 		return
 	var/mob/living/carbon/human/H = L
-	if(H.mind && H.mind.martial_art && prob(H.mind.martial_art.deflection_chance))
+	if(H.mind && H.mind.martial_art && prob(H.mind.martial_art.can_deflect))
 		return TRUE
 
 /mob/living/simple_animal/hostile/megafauna/colossus/proc/alternating_dir_shots(telegraphing = TRUE)
@@ -317,7 +319,6 @@ Difficulty: Very Hard
 	icon_state = initial(icon_state)
 	ranged_cooldown = world.time + 4 SECONDS
 
-
 /mob/living/simple_animal/hostile/megafauna/colossus/devour(mob/living/L)
 	visible_message(span_colossus("[declent_ru(NOMINATIVE)] дезинтегрирует [L.declent_ru(ACCUSATIVE)]!"))
 	L.dust()
@@ -325,7 +326,6 @@ Difficulty: Very Hard
 /obj/effect/temp_visual/at_shield
 	name = "anti-toolbox field"
 	desc = "Мерцающее силовое поле, защищающее колосса."
-	icon = 'icons/effects/effects.dmi'
 	icon_state = "at_shield2"
 	layer = FLY_LAYER
 	light_range = 2
@@ -347,16 +347,12 @@ Difficulty: Very Hard
 		AT.pixel_y += random_y
 	return ..()
 
-
 /obj/projectile/colossus
 	name = "смертоносный заряд"
 	icon_state= "chronobolt"
 	damage = 25
 	armour_penetration = 100
 	speed = 3.5
-	eyeblur = 0
-	damage_type = BRUTE
-	pass_flags = PASSTABLE
 
 /obj/projectile/colossus/get_ru_names()
 	return list(
@@ -365,7 +361,7 @@ Difficulty: Very Hard
 		DATIVE = "смертоносному заряду",
 		ACCUSATIVE = "смертоносный заряд",
 		INSTRUMENTAL = "смертоносным зарядом",
-		PREPOSITIONAL = "смертоносном заряде"
+		PREPOSITIONAL = "смертоносном заряде",
 	)
 
 /obj/projectile/colossus/on_hit(atom/target, blocked = 0)
