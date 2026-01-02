@@ -8,7 +8,6 @@
 	var/icon_closed = null
 	density = TRUE
 	anchored = TRUE
-	use_power = IDLE_POWER_USE
 	var/busy = 0
 	var/hacked = 0
 	var/disabled = 0
@@ -133,14 +132,13 @@
 
 /obj/machinery/r_n_d/proc/AfterMaterialInsert(type_inserted, id_inserted, amount_inserted)
 	var/stack_name
+	var/obj/item/stack/S = type_inserted
 	if(ispath(type_inserted, /obj/item/stack/ore/bluespace_crystal))
-		stack_name = "bluespace polycrystal"
 		use_power(MINERAL_MATERIAL_AMOUNT / 10)
 	else
-		var/obj/item/stack/S = type_inserted
-		stack_name = initial(S.name)
 		use_power(min(1000, (amount_inserted / 100)))
-	flick_overlay_view(mutable_appearance(icon, "[initial(name)]_[stack_name]"), 1 SECONDS)
+	stack_name = S.protolathe_name
+	flick_overlay_view(mutable_appearance(icon, "[base_icon_state]_[stack_name]"), 1.5 SECONDS)
 
 
 /obj/machinery/r_n_d/proc/check_mat(datum/design/being_built, M)

@@ -152,7 +152,7 @@
 
 /datum/plant_gene/reagent/proc/set_reagent(reag_id)
 	reagent_id = reag_id
-	name = "UNKNOWN"
+	name = UNKNOWN_STATUS_RUS
 
 	var/datum/reagent/R = GLOB.chemical_reagents_list[reag_id]
 	if(R && R.id == reagent_id)
@@ -268,7 +268,7 @@
 /datum/plant_gene/trait/cell_charge
 	// Cell recharging trait. Charges all mob's power cells to (potency*rate)% mark when eaten.
 	// Generates sparks on squash.
-	// Small (potency*rate*5) chance to shock squish or slip target for (potency*rate*5) damage.
+	// Small (potency*rate*5) chance to shock squish or slip target for(potency*rate*5) damage.
 	// Multiplies max charge by (rate*1000) when used in potato power cells.
 	name = "Electrical Activity"
 	rate = 0.2

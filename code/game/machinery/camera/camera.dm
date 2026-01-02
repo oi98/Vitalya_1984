@@ -35,6 +35,11 @@
 	var/in_use_lights = 0 // TO BE IMPLEMENTED
 	var/toggle_sound = 'sound/items/wirecutter.ogg'
 
+	var/list/localMotionTargets = list()
+	var/detectTime = 0
+	/// Don't forget, there's another 3 seconds in queueAlarm()
+	var/alarm_delay = 30
+
 /obj/machinery/camera/Initialize(mapload, list/network, c_tag, obj/item/camera_assembly/input_assembly)
 	. = ..()
 	wires = new(src)
@@ -112,7 +117,7 @@
 	GLOB.cameranet.updateVisibility(src, opacity_check = FALSE)
 
 /obj/machinery/camera/singularity_pull(S, current_size)
-	if (status && current_size >= STAGE_FIVE) // If the singulo is strong enough to pull anchored objects and the camera is still active, turn off the camera as it gets ripped off the wall.
+	if(status && current_size >= STAGE_FIVE) // If the singulo is strong enough to pull anchored objects and the camera is still active, turn off the camera as it gets ripped off the wall.
 		toggle_cam(null, 0)
 	..()
 
@@ -166,7 +171,7 @@
 		for(var/mob/living/silicon/ai/AI as anything in GLOB.ai_list)
 			if(AI.control_disabled || (AI.stat == DEAD))
 				continue
-			if(user.name == "Unknown")
+			if(user.name == UNKNOWN_NAME_RUS)
 				to_chat(AI, "<b>[user]</b> holds <a href='byond://?_src_=usr;show_paper=1;'>the [itemname]</a> up to one of your cameras ...")
 			else
 				to_chat(AI, "<b><a href='byond://?src=[AI.UID()];track=[html_encode(user.name)]'>[user]</a></b> holds <a href='byond://?_src_=usr;show_paper=1;'>the [itemname]</a> up to one of your cameras ...")
@@ -329,7 +334,7 @@
 	SSalarm.triggerAlarm("Camera", get_area(src), list(UID()), src)
 
 /obj/machinery/camera/proc/cancelCameraAlarm()
-	if (!alarm_on) // you don't have to turn off alarm twice
+	if(!alarm_on) // you don't have to turn off alarm twice
 		return
 	alarm_on = FALSE
 	SSalarm.cancelAlarm("Camera", get_area(src), src)
@@ -479,7 +484,6 @@
 /obj/machinery/camera/mortar
 	alpha = 0
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	density = FALSE
 	invuln = TRUE
 	network = list("mortar")
 	use_power = NO_POWER_USE

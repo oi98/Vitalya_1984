@@ -1,6 +1,5 @@
 /obj/machinery/r_n_d/server
 	name = "R&D Server"
-	icon = 'icons/obj/machines/research.dmi'
 	icon_state = "server"
 	base_icon_state = "server"
 	var/datum/research/files
@@ -160,7 +159,7 @@
 	if(shocked && shock(user, 50))
 		add_fingerprint(user)
 		return TRUE
-	. = default_deconstruction_screwdriver(user, "[base_icon_state]_o", base_icon_state, I)
+	. = default_deconstruction_screwdriver(user, "[base_icon_state]_unscrewed", base_icon_state, I)
 
 
 /obj/machinery/r_n_d/server/crowbar_act(mob/living/user, obj/item/I)

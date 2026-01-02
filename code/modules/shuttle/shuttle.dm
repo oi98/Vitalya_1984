@@ -509,7 +509,7 @@
 	var/rotation = 0
 	if(new_dock.dir != dir) //Even when the dirs are the same rotation is coming out as not 0 for some reason
 		rotation = dir2angle(new_dock.dir)-dir2angle(dir)
-		if ((rotation % 90) != 0)
+		if((rotation % 90) != 0)
 			rotation += (rotation % 90) //diagonal rotations not allowed, round up
 		rotation = SIMPLIFY_DEGREES(rotation)
 
@@ -604,7 +604,7 @@
 	dir = new_dock.dir
 
 	// Update mining and labor shuttle ash storm audio
-	if(id in list("mining", "laborcamp") && !CONFIG_GET(flag/disable_lavaland))
+	if((id in list("mining", "laborcamp")) && !CONFIG_GET(flag/disable_lavaland) && !(SSmapping.map_datum.disables & DISABLE_LAVALAND))
 		var/mining_zlevel = level_name_to_num(MINING)
 		var/datum/weather/ash_storm/W = SSweather.get_weather(mining_zlevel, /area/lavaland/surface/outdoors)
 		if(W)
@@ -777,7 +777,7 @@
 
 /obj/docking_port/mobile/proc/getStatusText()
 	var/obj/docking_port/stationary/dockedAt = get_docked()
-	. = (dockedAt && dockedAt.name) ? dockedAt.name : "unknown"
+	. = (dockedAt && dockedAt.name) ? dockedAt.name : lowertext(UNKNOWN_STATUS_RUS)
 	if(istype(dockedAt, /obj/docking_port/stationary/transit))
 		var/obj/docking_port/stationary/dst
 		if(mode == SHUTTLE_RECALL)
@@ -858,7 +858,7 @@
 	var/list/data = list()
 	var/obj/docking_port/mobile/mobile_docking_port = SSshuttle.getShuttle(shuttleId)
 	var/lockdown_check = lockdown_affected && GLOB.full_lockdown
-	data["docked_location"] = mobile_docking_port ? mobile_docking_port.getStatusText() : "Unknown"
+	data["docked_location"] = mobile_docking_port ? mobile_docking_port.getStatusText() : lowertext(UNKNOWN_STATUS_RUS)
 	data["timer_str"] = mobile_docking_port ? mobile_docking_port.getTimerStr() : "00:00"
 	if(!mobile_docking_port)
 		data["status"] = "Missing"
@@ -1027,13 +1027,9 @@
 /obj/machinery/computer/camera_advanced/shuttle_docker/admin
 	name = "Admin shuttle navigation computer"
 	desc = "Используется, чтобы указать точное местоположение для отправки админского шаттла."
-	icon_screen = "navigation"
-	icon_keyboard = "med_key"
 	shuttleId = "admin"
 	shuttlePortId = "admin_custom"
 	view_range = 14
-	x_offset = 0
-	y_offset = 0
 	resistance_flags = INDESTRUCTIBLE
 	space_turfs_only = FALSE
 	access_admin_zone = TRUE	//can we park on Admin z_lvls?
