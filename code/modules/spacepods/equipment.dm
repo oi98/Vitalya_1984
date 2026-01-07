@@ -1,19 +1,19 @@
 /obj/item/spacepod_equipment/weaponry/proc/fire_weapons()
 	if((HAS_TRAIT(usr, TRAIT_PACIFISM) || GLOB.pacifism_after_gt) && harmful)
-		to_chat(usr, "<span class='warning'>You don't want to harm other living beings!</span>")
+		to_chat(usr, span_warning("You don't want to harm other living beings!"))
 		return
 	if(my_atom.next_firetime > world.time)
-		to_chat(usr, "<span class='warning'>Your weapons are recharging.</span>")
+		to_chat(usr, span_warning("Your weapons are recharging."))
 		return
 	my_atom.next_firetime = world.time + fire_delay
 	var/turf/firstloc
 	var/turf/secondloc
 	if(!my_atom.equipment_system || !my_atom.equipment_system.weapon_system)
-		to_chat(usr, "<span class='warning'>Missing equipment or weapons.</span>")
+		to_chat(usr, span_warning("Missing equipment or weapons."))
 		my_atom.verbs -= text2path("[type]/proc/fire_weapons")
 		return
 	if(!my_atom.battery.use(shot_cost))
-		to_chat(usr, "<span class='warning'>Insufficient charge to fire the weapons</span>")
+		to_chat(usr, span_warning("Insufficient charge to fire the weapons"))
 		return
 	var/olddir
 	for(var/i = 0; i < shots_per; i++)
@@ -83,7 +83,7 @@
 /obj/item/spacepod_equipment/weaponry
 	name = "pod weapon"
 	desc = "You shouldn't be seeing this"
-	icon_state = "blank"
+	icon_state = null
 	var/obj/projectile/projectile_type
 	var/shot_cost = 0
 	var/shots_per = 1
@@ -163,7 +163,7 @@ GLOBAL_LIST_EMPTY(pod_trackers)
 	name = "pod misc"
 	desc = "You shouldn't be seeing this"
 	icon = 'icons/goonstation/pods/ship.dmi'
-	icon_state = "blank"
+	icon_state = null
 
 /obj/item/spacepod_equipment/misc/tracker
 	name = "spacepod tracking system"
@@ -227,7 +227,7 @@ GLOBAL_LIST_EMPTY(pod_trackers)
 /obj/item/spacepod_equipment/sec_cargo
 	name = "secondary cargo"
 	desc = "you shouldn't be seeing this"
-	icon_state = "blank"
+	icon_state = null
 
 // Passenger Seat
 /obj/item/spacepod_equipment/sec_cargo/chair
@@ -252,7 +252,7 @@ GLOBAL_LIST_EMPTY(pod_trackers)
 /obj/item/spacepod_equipment/lock
 	name = "pod lock"
 	desc = "You shouldn't be seeing this"
-	icon_state = "blank"
+	icon_state = null
 	var/mode = 0
 	var/id = null
 
@@ -275,7 +275,6 @@ GLOBAL_LIST_EMPTY(pod_trackers)
 	w_class = WEIGHT_CLASS_TINY
 	var/id = 0
 
-
 // Key - Lock Interactions
 /obj/item/spacepod_equipment/lock/keyed/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/spacepod_equipment/key))
@@ -290,18 +289,12 @@ GLOBAL_LIST_EMPTY(pod_trackers)
 
 	return ..()
 
-/*
-///////////////////////////////////////
-/////////Locator System///////////////////
-///////////////////////////////////////
-*/
-
+// Locator System
 /obj/item/spacepod_equipment/locators
 	name = "Locator system"
 	desc = "You shouldn't be seeing this"
 	icon = 'icons/spacepods_paradise/locator.dmi'
-	icon_state = "blank"
-
+	icon_state = null
 	var/can_ignore_z = FALSE
 	var/can_found_all = FALSE
 
@@ -337,4 +330,3 @@ GLOBAL_LIST_EMPTY(pod_trackers)
 	desc = "Улучшеный модуль поиска способный обнаружить любой объект в секторе"
 	icon_state = "pod_locator"
 	can_found_all = TRUE
-

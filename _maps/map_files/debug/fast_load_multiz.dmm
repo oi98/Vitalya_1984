@@ -62,6 +62,10 @@
 /obj/machinery/light,
 /turf/simulated/openspace,
 /area/admin)
+"pn" = (
+/obj/machinery/computer/secure_data,
+/turf/simulated/floor/plasteel,
+/area/admin)
 "qp" = (
 /obj/item/tank/jetpack/oxygen,
 /turf/simulated/floor/plasteel,
@@ -141,10 +145,6 @@
 	},
 /turf/simulated/floor/plasteel,
 /area/admin)
-"Fg" = (
-/obj/machinery/light,
-/turf/simulated/floor/plasteel,
-/area/admin)
 "GN" = (
 /obj/structure/railing{
 	dir = 8
@@ -187,21 +187,19 @@
 /turf/simulated/floor/plasteel,
 /area/admin)
 "Md" = (
-/obj/effect/landmark/join_late_cyborg,
+/obj/effect/landmark/spawner/late/cyborg,
 /turf/simulated/floor/plasteel,
 /area/admin)
 "Me" = (
 /obj/machinery/door/airlock/engineering,
 /turf/simulated/floor/indestructible/plating,
 /area/admin)
-"Pd" = (
-/obj/effect/landmark/join_late,
+"Nf" = (
+/obj/machinery/computer/account_database,
 /turf/simulated/floor/plasteel,
 /area/admin)
-"Px" = (
-/obj/machinery/light{
-	dir = 4
-	},
+"Pd" = (
+/obj/effect/landmark/spawner/late/crew,
 /turf/simulated/floor/plasteel,
 /area/admin)
 "Qw" = (
@@ -2374,7 +2372,7 @@ HE
 HE
 HE
 HE
-Fg
+xj
 jk
 ay
 ay
@@ -2825,7 +2823,7 @@ ay
 ay
 ay
 jk
-HE
+pn
 HE
 HE
 HE
@@ -2891,8 +2889,8 @@ ay
 ay
 ay
 jk
-HE
-Px
+Nf
+nF
 HE
 HE
 HE

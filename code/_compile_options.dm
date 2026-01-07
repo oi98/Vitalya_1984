@@ -1,14 +1,24 @@
 #define DEBUG
+#define MULTIINSTANCE
 //#define TESTING
 
 // If defined, we will NOT defer asset generation till later in the game, and will instead do it all at once, during initiialize
 //#define DO_NOT_DEFER_ASSETS
-// Uncomment the following line to compile unit tests.
-// #define UNIT_TESTS
 
+// Uncomment the following line to compile game tests on a local server. The output will be in a test_run-[DATE].log file in the ./data folder.
+//#define LOCAL_GAME_TESTS
 
-#ifdef CIBUILDING
-#define UNIT_TESTS
+#ifdef LOCAL_GAME_TESTS
+#define GAME_TESTS
+#define MAP_TESTS
+#endif
+
+#if defined(CIBUILDING) && defined(LOCAL_GAME_TESTS)
+#error CIBUILDING and LOCAL_GAME_TESTS should not be enabled at the same time!
+#endif
+
+#if defined(GAME_TESTS) || defined(MAP_TESTS)
+#define TEST_RUNNER
 #endif
 
 ///Used to find the sources of harddels, quite laggy, don't be surpised if it freezes your client for a good while
@@ -36,16 +46,6 @@
 #endif
 
 #define IS_MODE_COMPILED(MODE) (ispath(text2path("/datum/game_mode/"+(MODE))))
-
-//Don't set this very much higher then 1024 unless you like inviting people in to dos your server with message spam
-#define MAX_MESSAGE_LEN 1024
-#define MAX_PAPER_MESSAGE_LEN 4096
-#define MAX_PAPER_FIELDS 50
-#define MAX_BOOK_MESSAGE_LEN 9216
-#define MAX_NAME_LEN 50	//diona names can get loooooooong
-
-/// Removes characters incompatible with file names.
-#define SANITIZE_FILENAME(text) (GLOB.filename_forbidden_chars.Replace(text, ""))
 
 //Update this whenever you need to take advantage of more recent byond features
 #define MIN_COMPILER_VERSION 513
