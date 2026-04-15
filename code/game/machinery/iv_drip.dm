@@ -20,7 +20,7 @@
 		. += "hangingbag"
 		if(bag.reagents.total_volume)
 			var/mutable_appearance/filling = mutable_appearance('icons/goonstation/objects/iv.dmi', "hangingbag-fluid")
-			filling.color = mix_color_from_reagents(bag.reagents.reagent_list)
+			filling.color = get_color_matrix_from_reagents(bag.reagents.reagent_list)
 			. += filling
 
 /obj/machinery/iv_drip/mouse_drop_dragged(atom/over_object, mob/user, src_location, over_location, params)
@@ -43,7 +43,7 @@
 		bag = null
 		update_icon(UPDATE_OVERLAYS)
 
-/obj/machinery/iv_drip/attackby(obj/item/I, mob/user, params)
+/obj/machinery/iv_drip/attackby(obj/item/I, mob/user, list/modifiers)
 	if(user.a_intent == INTENT_HARM)
 		return ..()
 
@@ -62,7 +62,7 @@
 
 	if(bag && istype(I, /obj/item/reagent_containers))
 		add_fingerprint(user)
-		I.melee_attack_chain(user, bag, params)
+		I.melee_attack_chain(user, bag, modifiers)
 		return ATTACK_CHAIN_BLOCKED_ALL
 
 	return ..()

@@ -25,8 +25,8 @@
 	var/germ_level = GERM_LEVEL_AMBIENT // The higher the germ level, the more germ on the atom.
 	var/simulated = TRUE //filter for actions - used by lighting overlays
 	var/atom_say_verb = "говорит"
-	var/bubble_icon = "default" ///what icon the mob uses for speechbubbles
-	var/bubble_emote_icon = "emote" ///what icon the mob uses for emotebubbles
+	/// What icon the mob uses for speechbubbles
+	var/bubble_icon = "default"
 	var/dont_save = FALSE // For atoms that are temporary by necessity - like lighting overlays
 	/// The icon state that will be switched to during initialization.
 	/// Mostly intended for things that have a special map icon.
@@ -196,6 +196,9 @@
 	var/rad_insulation = RAD_NO_INSULATION
 
 	var/looting_icon_mode
+
+	/// Text that appears preceding the name in [/atom/proc/examine_title]
+	var/examine_thats = "Это"
 
 /atom/proc/onCentcom()
 	. = FALSE
@@ -420,53 +423,6 @@
 			found += A.search_contents_for(path, filter_path)
 	return found
 
-//All atoms
-/atom/proc/examine(mob/user, infix = "", suffix = "")
-	var/f_name = "."
-	if(src.blood_DNA && !istype(src, /obj/effect/decal))
-		f_name = ", "
-		if(blood_color != "#030303")
-			f_name += span_danger("в кровавых следах.")
-		else
-			f_name += "в масляных следах."
-	. = list("[icon2html(src, user)] Это <b>[declent_ru(NOMINATIVE)]</b>[f_name] [suffix]")
-	if(desc)
-		. += desc
-
-	if(reagents)
-		if(container_type & TRANSPARENT)
-			. += span_notice("Содержимое:")
-			if(length(reagents.reagent_list))
-				if(user.can_see_reagents()) //Show each individual reagent
-					for(var/I in reagents.reagent_list)
-						var/datum/reagent/R = I
-						. += span_notice("<b>[R.name]</b> - <b>[R.volume]</b> единиц[declension_ru(R.volume, "а", "ы", "")].")
-				else //Otherwise, just show the total volume
-					if(reagents && length(reagents.reagent_list))
-						. += span_notice("<b>[reagents.total_volume]</b> единиц[declension_ru(reagents.total_volume, "а", "ы", "")] вещества.")
-			else
-				. += span_notice("Ничего.")
-		else if(container_type & AMOUNT_VISIBLE)
-			if(reagents.total_volume)
-				. += span_notice("Осталось ещё <b>[reagents.total_volume]</b> единиц[declension_ru(reagents.total_volume, "а", "ы", "")] вещества.")
-			else
-				. += span_danger("Внутри ничего нет.")
-
-	//Detailed description
-	var/descriptions
-	if(get_description_info())
-		descriptions += "<a href='byond://?src=[UID()];description_info=`'>\[Справка\]</a> "
-	if(get_description_antag())
-		if(isAntag(user) || isobserver(user))
-			descriptions += "<a href='byond://?src=[UID()];description_antag=`'>\[Антагонист\]</a> "
-	if(get_description_fluff())
-		descriptions += "<a href='byond://?src=[UID()];description_fluff=`'>\[Забавная информация\]</a>"
-
-	if(descriptions)
-		. += descriptions
-
-	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
-
 /**
  * Updates the appearence of the icon
  *
@@ -655,20 +611,6 @@
 		if(existing.dupe_id == id)
 			qdel(existing)
 
-/atom/Topic(href, href_list)
-	. = ..()
-	if(.)
-		return TRUE
-	if(href_list["description_info"])
-		to_chat(usr, span_notice("<div class='examine'>[get_description_info()]</div>"))
-		return TRUE
-	if(href_list["description_antag"])
-		to_chat(usr, span_syndradio("<div class='examine'>[get_description_antag()]</div>"))
-		return TRUE
-	if(href_list["description_fluff"])
-		to_chat(usr,  span_notice("<div class='examine'>[get_description_fluff()]</div>"))
-		return TRUE
-
 /atom/proc/relaymove()
 	return
 
@@ -693,55 +635,6 @@
 	SEND_SIGNAL(src, COMSIG_ATOM_FIRE_ACT, exposed_temperature, exposed_volume)
 	if(reagents)
 		reagents.temperature_reagents(exposed_temperature)
-
-/atom/proc/tool_act(mob/living/user, obj/item/I, tool_type)
-	var/signal_result = SEND_SIGNAL(src, COMSIG_ATOM_TOOL_ACT(tool_type), user, I)
-	if(signal_result)
-		return TRUE
-
-	switch(tool_type)
-		if(TOOL_CROWBAR)
-			return crowbar_act(user, I)
-
-		if(TOOL_MULTITOOL)
-			return multitool_act(user, I)
-
-		if(TOOL_SCREWDRIVER)
-			return screwdriver_act(user, I)
-
-		if(TOOL_WRENCH)
-			return wrench_act(user, I)
-
-		if(TOOL_WIRECUTTER)
-			return wirecutter_act(user, I)
-
-		if(TOOL_WELDER)
-			return welder_act(user, I)
-
-// Tool-specific behavior procs. To be overridden in subtypes.
-/atom/proc/crowbar_act(mob/living/user, obj/item/I)
-	return
-
-/atom/proc/multitool_act(mob/living/user, obj/item/I)
-	return
-
-//Check if the multitool has an item in its data buffer
-/atom/proc/multitool_check_buffer(user, silent = FALSE)
-	if(!silent)
-		balloon_alert(user, "буфер данных отсутствует!")
-	return FALSE
-
-/atom/proc/screwdriver_act(mob/living/user, obj/item/I)
-	return
-
-/atom/proc/wrench_act(mob/living/user, obj/item/I)
-	return
-
-/atom/proc/wirecutter_act(mob/living/user, obj/item/I)
-	return
-
-/atom/proc/welder_act(mob/living/user, obj/item/I)
-	return
 
 /atom/proc/emag_act(mob/user)
 	SEND_SIGNAL(src, COMSIG_ATOM_EMAG_ACT, user)
@@ -1563,18 +1456,31 @@ GLOBAL_LIST_EMPTY(blood_splatter_icons)
 /atom/proc/get_visible_gender()	// Used only in /mob/living/carbon/human and /mob/living/simple_animal/hostile/morph
 	return gender
 
+#define ANGLE_DIR_POS 1
+#define ANGLE_DIR_NEG -1
+#define HALF_ROTATION_ANGLE 180
+#define RICOCHET_RAND_MAX_ANGLE rand(0, 15)
+
 /atom/proc/handle_ricochet(obj/projectile/ricocheting_projectile)
-	var/turf/p_turf = get_turf(ricocheting_projectile)
-	var/face_direction = get_dir(src, p_turf) || get_dir(src, ricocheting_projectile)
-	var/face_angle = dir2angle(face_direction)
-	var/incidence_s = GET_ANGLE_OF_INCIDENCE(face_angle, (ricocheting_projectile.Angle + 180 + rand(-30, 30)))
-	var/a_incidence_s = abs(incidence_s)
-	if(a_incidence_s > 90 && a_incidence_s < 270)
+	if(HAS_TRAIT(ricocheting_projectile, TRAIT_NO_RICOCHET))
 		return FALSE
-	var/new_angle_s = SIMPLIFY_DEGREES(face_angle + incidence_s)
-	ricocheting_projectile.set_angle(new_angle_s)
-	visible_message(span_warning("[ricocheting_projectile] reflects off [src]!"))
+	var/turf/projectile_turf = get_turf(ricocheting_projectile)
+	var/face_direction = get_dir(src, projectile_turf) || get_dir(src, ricocheting_projectile)
+	var/normal_angle = dir2angle(face_direction)
+	var/normal_dir = ricocheting_projectile.Angle < 0 ? ANGLE_DIR_NEG : ANGLE_DIR_POS
+	var/ricochet_angle = GET_ANGLE_OF_INCIDENCE(normal_angle, (ricocheting_projectile.Angle + HALF_ROTATION_ANGLE + normal_dir * RICOCHET_RAND_MAX_ANGLE))
+	var/ricochet_angle_abs = abs(ricochet_angle)
+	if(ricochet_angle_abs > 90 && ricochet_angle_abs < 270)
+		return FALSE
+	var/new_angle = SIMPLIFY_DEGREES(normal_angle + ricochet_angle)
+	ricocheting_projectile.set_angle(new_angle)
+	visible_message(span_warning("[DECLENT_RU_CAP(ricocheting_projectile, NOMINATIVE)] рикошетит от [declent_ru(GENITIVE)]!"))
 	return TRUE
+
+#undef ANGLE_DIR_POS
+#undef ANGLE_DIR_NEG
+#undef HALF_ROTATION_ANGLE
+#undef RICOCHET_RAND_MAX_ANGLE
 
 /// Whether the mover object can avoid being blocked by this atom, while arriving from (or leaving through) the border_dir.
 /atom/proc/CanPass(atom/movable/mover, border_dir)
@@ -1721,9 +1627,6 @@ GLOBAL_LIST_EMPTY(blood_splatter_icons)
 	base_pixel_y = new_value
 
 	pixel_y = pixel_y + base_pixel_y - .
-
-/atom/proc/get_visible_name(add_id_name = TRUE)
-	return name
 
 /atom/proc/GetVoice()
 	return name
