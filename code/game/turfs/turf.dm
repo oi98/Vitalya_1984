@@ -10,6 +10,10 @@
 	var/turf_flags = NONE
 
 	var/intact = TRUE
+
+	/// Can you interact or see underfloor things. Can be HIDDEN, VISIBLE and INTERACTABLE
+	var/underfloor_accessibility = UNDERFLOOR_HIDDEN
+
 	var/turf/baseturf = /turf/baseturf_bottom
 	/// negative for faster, positive for slower
 	var/slowdown = 0
@@ -340,13 +344,7 @@
 /turf/proc/levelupdate()
 	for(var/obj/object in src)
 		if(object.level == 1 && (object.flags & INITIALIZED)) // Only do this if the object has initialized
-			object.hide(intact)
-
-// override for space turfs, since they should never hide anything
-/turf/space/levelupdate()
-	for(var/obj/object in src)
-		if(object.level == 1 && (object.flags & INITIALIZED))
-			object.hide(FALSE)
+			SEND_SIGNAL(object, COMSIG_OBJ_HIDE, underfloor_accessibility)
 
 // Removes all signs of lattice on the pos of the turf -Donkieyo
 /turf/proc/RemoveLattice()
@@ -616,15 +614,15 @@
 	ChangeTurf(baseturf)
 	return 2
 
-/turf/attackby(obj/item/I, mob/user, params)
+/turf/attackby(obj/item/used, mob/user, params)
 	. = ..()
 
 	if(ATTACK_CHAIN_CANCEL_CHECK(.) || !can_lay_cable())
 		return .
 
-	if(iscoil(I))
+	if(iscoil(used))
 		add_fingerprint(user)
-		var/obj/item/stack/cable_coil/coil = I
+		var/obj/item/stack/cable_coil/coil = used
 		for(var/obj/structure/cable/local_cable in src)
 			if(local_cable.d1 == 0 || local_cable.d2 == 0)
 				local_cable.attackby(coil, user, params)
@@ -634,9 +632,9 @@
 		. |= (ATTACK_CHAIN_BLOCKED_ALL)
 		return .
 
-	if(istype(I, /obj/item/twohanded/rcl))
+	if(istype(used, /obj/item/twohanded/rcl))
 		add_fingerprint(user)
-		var/obj/item/twohanded/rcl/rcl = I
+		var/obj/item/twohanded/rcl/rcl = used
 		if(!rcl.loaded)
 			to_chat(user, span_warning("The [rcl.name] has no cable!"))
 			return .
@@ -654,7 +652,7 @@
 	return TRUE
 
 /turf/proc/can_lay_cable()
-	return can_have_cabling() && !intact && transparent_floor != TURF_TRANSPARENT
+	return can_have_cabling() && underfloor_accessibility == UNDERFLOOR_INTERACTABLE
 
 /turf/proc/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
 	underlay_appearance.icon = icon
