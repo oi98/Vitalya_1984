@@ -5,8 +5,11 @@
 /obj/machinery/photocopier
 	name = "photocopier"
 	desc = "Устройство для сканирования и печати важных документов. На корпусе имеется надпись: \"НЕ САДИТЬСЯ!\"."
-	icon = 'icons/obj/library.dmi'
-	icon_state = "bigscanner"
+	icon = 'icons/map_icons/objects.dmi'
+	icon_state = "/obj/machinery/photocopier"
+	post_init_icon_state = ""
+	greyscale_config = /datum/greyscale_config/photocopier
+	greyscale_colors = "#ffffff#8dcfe1#00f4ff"
 	anchored = TRUE
 	density = TRUE
 	idle_power_usage = 30
@@ -19,8 +22,8 @@
 	COOLDOWN_DECLARE(copying_cooldown)
 
 	var/insert_anim = "bigscanner_work"
-	///Is the photocopier performing an action currently?
-	var/copying = FALSE
+	/// Indicates whether the printer is currently busy copying or not.
+	var/busy = FALSE
 
 	///Current obj stored in the copier to be copied
 	var/obj/item/copyitem = null
@@ -55,7 +58,7 @@
 								'sound/machines/printer_dotmatrix2.ogg',
 								'sound/machines/printer_dotmatrix3.ogg',
 								'sound/machines/printer_dotmatrix4.ogg')
-	var/syndicate = FALSE
+	var/faction = FACTION_DEFAULT
 	var/info_box = "Если у вас есть пожелания или\
 					идеи для улучшения стандартных\
 					форм, обратитесь в Отдел\
@@ -65,20 +68,29 @@
 
 /obj/machinery/photocopier/get_ru_names()
 	return list(
-		NOMINATIVE = "ксерокс",
-		GENITIVE = "ксерокса",
-		DATIVE = "ксероксу",
-		ACCUSATIVE = "ксерокс",
-		INSTRUMENTAL = "ксероксом",
-		PREPOSITIONAL = "ксероксе",
+		NOMINATIVE = "стандартный МФУ",
+		GENITIVE = "стандартного МФУ",
+		DATIVE = "стандартному МФУ",
+		ACCUSATIVE = "стандартный МФУ",
+		INSTRUMENTAL = "стандартным МФУ",
+		PREPOSITIONAL = "стандартном МФУ",
 	)
+
+/obj/machinery/photocopier/examine_more(mob/user)
+	. = ..()
+	if(faction != FACTION_DEFAULT)
+		..()
+	. += span_notice("Корпус МФУ блестит на свету, словно им ещё никто не пользовался, \
+						устройство выглядит тяжёлым и монолитным. На задней крышке корпуса \
+						виднеется гравировка производителя: Трейзен-Сервис\". Похоже, что \
+						нынче все офисные машины производит одна из дочерних компаний Нанотрейзен, \
+						хоть и странно, что дизайн выполнен относительно нейтрально.")
 
 /obj/machinery/photocopier/syndie
 	name = "Syndicate photocopier"
 	desc = "Устройство для сканирования и печати важных документов. Они даже не пытаются скрыть, что это их собственность..."
-	syndicate = TRUE
-	icon_state = "syndiebigscanner"
-	insert_anim = "syndiebigscanner_work"
+	faction = FACTION_SYNDIE
+	greyscale_colors = "#9b8b8b#e36161#ac0101"
 	info_box = "При использовании любой из данных форм,\
 				обратите внимание на все пункты снизу. \
 				Синдикат напоминает, что в ваших же интересах \
@@ -87,13 +99,21 @@
 
 /obj/machinery/photocopier/syndie/get_ru_names()
 	return list(
-		NOMINATIVE = "ксерокс \"Синдиката\"",
-		GENITIVE = "ксерокса \"Синдиката\"",
-		DATIVE = "ксероксу \"Синдиката\"",
-		ACCUSATIVE = "ксерокс \"Синдиката\"",
-		INSTRUMENTAL = "ксероксом \"Синдиката\"",
-		PREPOSITIONAL = "ксероксе \"Синдиката\"",
+		NOMINATIVE = "МФУ \"Синдиката\"",
+		GENITIVE = "МФУ \"Синдиката\"",
+		DATIVE = "МФУ \"Синдиката\"",
+		ACCUSATIVE = "МФУ \"Синдиката\"",
+		INSTRUMENTAL = "МФУ \"Синдиката\"",
+		PREPOSITIONAL = "МФУ \"Синдиката\"",
 	)
+
+/obj/machinery/photocopier/syndie/examine_more(mob/user)
+	. = ..()
+	. += span_notice("Чёрный корпус МФУ с красными полосами привлекает внимание издалека, но \
+						при близком рассмотрении огорчает дешёвостью материалов. \n \
+						На задней крышке монолитного устройства видно, как новая гравировка: \"Синдикат\" \
+						перекрывает старую. Похоже старому оборудованию конкурента решили дать новую жизнь, \
+						скорее всего чтобы сэкономить.")
 
 /obj/machinery/photocopier/Initialize(mapload)
 	. = ..()
@@ -308,7 +328,7 @@
 	return P
 
 /obj/machinery/photocopier/proc/remove_document()
-	if(copying)
+	if(busy)
 		balloon_alert(usr, "сканер ещё работает!")
 		return
 	if(copyitem)
@@ -323,7 +343,7 @@
 		atom_say("Внимание: Не удается извлечь крупный предмет!", FALSE)
 
 /obj/machinery/photocopier/proc/remove_folder()
-	if(copying)
+	if(busy)
 		balloon_alert(usr, "сканер ещё работает!")
 		return
 	if(folder)
@@ -345,7 +365,7 @@
 /obj/machinery/photocopier/proc/cancopy(scancopy = FALSE) //are we able to make a copy of a doc?
 	if(stat & (BROKEN|NOPOWER))
 		return FALSE
-	if(copying) //are we in the process of copying something already?
+	if(busy) //are we in the process of copying something already?
 		balloon_alert(usr, "сканер ещё работает!")
 		return FALSE
 	if(!scancopy && toner <= 0) //if we're not scanning lets check early that we actually have toner
@@ -377,7 +397,7 @@
 /obj/machinery/photocopier/proc/copy(obj/item/C, scancopy = FALSE)
 	if(!cancopy(scancopy))
 		return
-	copying = TRUE
+	busy = TRUE
 
 	var/count_of_copies = 0
 
@@ -433,7 +453,7 @@
 	balloon_alert(usr, "нельзя отсканировать!")
 
 /obj/machinery/photocopier/proc/finish_copying()
-	copying = FALSE
+	busy = FALSE
 
 /obj/machinery/photocopier/proc/scan_document() //scan a document into a file
 	if(!cancopy())
@@ -442,7 +462,7 @@
 		balloon_alert(usr, "нет памяти!")
 		to_chat(usr, span_warning("[DECLENT_RU_CAP(src, NOMINATIVE)] не способен отсканировать [copyitem.declent_ru(ACCUSATIVE)] в связи с тем, что лимит сохранённых файлов был достигнут. Для продолжения операции освободите память устройства."))
 		return
-	copying = TRUE
+	busy = TRUE
 	var/obj/item/O
 	//Instead of calling copy() we jump ahead and use the procs that do the heavy lifting to avoid using toner since we're only scanning
 	if(istype(copyitem, /obj/item/paper))
@@ -455,12 +475,12 @@
 		O = copyass(scanning = TRUE)
 	else
 		to_chat(usr, span_warning("[declent_ru(NOMINATIVE)] не может отсканировать [copyitem.declent_ru(ACCUSATIVE)]."))
-		copying = FALSE
+		busy = FALSE
 		return
 	use_power(active_power_usage)
 	COOLDOWN_START(src, copying_cooldown, PHOTOCOPIER_DELAY)
 	LAZYADD(saved_documents, O)
-	copying = FALSE
+	busy = FALSE
 	playsound(loc, 'sound/machines/ping.ogg', 50, FALSE)
 	atom_say("Документ успешно отсканирован!", FALSE)
 
@@ -612,9 +632,9 @@
 		var/req_access = initial(ff.access)
 		if(req_access && !(req_access in access))
 			continue
-		if(syndicate && !(ff in subtypesof(/obj/item/paper/form/syndieform))) //Если у нас синдипритер, нам не нужны другие формы
+		if(faction == FACTION_SYNDIE && !(ff in subtypesof(/obj/item/paper/form/syndieform))) //Если у нас синдипритер, нам не нужны другие формы
 			continue
-		if(!syndicate && !emagged && (ff in subtypesof(/obj/item/paper/form/syndieform)))
+		if(faction != FACTION_SYNDIE && !emagged && (ff in subtypesof(/obj/item/paper/form/syndieform)))
 			continue
 		var/form[0]
 		form["path"] = F
@@ -624,12 +644,12 @@
 		forms[++forms.len] = form
 
 /obj/machinery/photocopier/proc/print_form(obj/item/paper/form/form)
-	if(copying)
+	if(busy)
 		balloon_alert(usr, "сканер ещё работает!")
 		return FALSE
 
 	toner--
-	copying = TRUE
+	busy = TRUE
 	playsound(loc, pick(print_sounds), 50)
 	use_power(active_power_usage)
 	addtimer(CALLBACK(src, PROC_REF(do_print_form_paper), form), PHOTOCOPIER_DELAY)
@@ -653,7 +673,7 @@
 			return ..()
 		copyitem = I
 		to_chat(user, span_notice("Вы вставляете [I.declent_ru(ACCUSATIVE)] в [declent_ru(ACCUSATIVE)]."))
-		flick(insert_anim, src)
+		flick_overlay_view(mutable_appearance('icons/obj/library.dmi', "photocopier_scanning"), 1.5 SECONDS)
 		return ATTACK_CHAIN_BLOCKED_ALL
 
 	if(istype(I, /obj/item/toner))

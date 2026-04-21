@@ -102,3 +102,11 @@
 	name = "Hazard Striped Canister"
 	json_config = 'code/datums/greyscale/json_configs/canister_hazard.json'
 
+/*
+	MARK: PHOTOCOPIER
+*/
+
+/datum/greyscale_config/photocopier
+	name = "Photocopier"
+	icon_file = 'icons/obj/library.dmi'
+	json_config = 'code/datums/greyscale/json_configs/photocopier.json'
