@@ -2,6 +2,10 @@
 ///Global limit on copied papers and photos, bundles are counted as a sum of their parts
 #define MAX_COPIES_PRINTABLE 300
 
+#define FACTION_NONE "Default"
+#define FACTION_NT "Nanotrasen"
+#define FACTION_SYNDIE "Syndicate"
+
 /obj/machinery/photocopier
 	name = "photocopier"
 	desc = "Устройство для сканирования и печати важных документов. На корпусе имеется надпись: \"НЕ САДИТЬСЯ!\"."
@@ -9,7 +13,7 @@
 	icon_state = "/obj/machinery/photocopier"
 	post_init_icon_state = ""
 	greyscale_config = /datum/greyscale_config/photocopier
-	greyscale_colors = "#ffffff#8dcfe1#00f4ff"
+	greyscale_colors = "#e7e8d7#e7e8d7#5ab7b4"
 	anchored = TRUE
 	density = TRUE
 	idle_power_usage = 30
@@ -58,11 +62,7 @@
 								'sound/machines/printer_dotmatrix2.ogg',
 								'sound/machines/printer_dotmatrix3.ogg',
 								'sound/machines/printer_dotmatrix4.ogg')
-	var/faction = FACTION_DEFAULT
-	var/info_box = "Если у вас есть пожелания или\
-					идеи для улучшения стандартных\
-					форм, обратитесь в Отдел\
-					стандартизации \"Нанотрейзен\"."
+	var/faction = FACTION_NONE
 	var/info_box_color = "blue"
 	var/ui_theme = "nanotrasen"// Если темы нету, будет взята стандартная НТ тема для интерфейса
 
@@ -78,23 +78,17 @@
 
 /obj/machinery/photocopier/examine_more(mob/user)
 	. = ..()
-	if(faction != FACTION_DEFAULT)
-		..()
-	. += span_notice("Корпус МФУ блестит на свету, словно им ещё никто не пользовался, \
-						устройство выглядит тяжёлым и монолитным. На задней крышке корпуса \
-						виднеется гравировка производителя: Трейзен-Сервис\". Похоже, что \
-						нынче все офисные машины производит одна из дочерних компаний Нанотрейзен, \
-						хоть и странно, что дизайн выполнен относительно нейтрально.")
+	if(faction != FACTION_NONE)
+		return . //Child objects with specific factions will have their own examine text
+	. += span_notice("Поблекший корпус МФУ слегка блестит на свету, но всё ещё выглядит хорошо. \n \
+						На задней крышке монолитного устройства виднеется гравировка производителя: \"Легаси Технолоджис\", \
+						под ней видно шестизначный серийный номер.")
 
 /obj/machinery/photocopier/syndie
 	name = "Syndicate photocopier"
 	desc = "Устройство для сканирования и печати важных документов. Они даже не пытаются скрыть, что это их собственность..."
 	faction = FACTION_SYNDIE
 	greyscale_colors = "#9b8b8b#e36161#ac0101"
-	info_box = "При использовании любой из данных форм,\
-				обратите внимание на все пункты снизу. \
-				Синдикат напоминает, что в ваших же интересах \
-				соблюдать данные указания."
 	ui_theme = "syndicate"
 
 /obj/machinery/photocopier/syndie/get_ru_names()
@@ -110,10 +104,34 @@
 /obj/machinery/photocopier/syndie/examine_more(mob/user)
 	. = ..()
 	. += span_notice("Чёрный корпус МФУ с красными полосами привлекает внимание издалека, но \
-						при близком рассмотрении огорчает дешёвостью материалов. \n \
+						при близком рассмотрении огорчает дешёвизной материалов. \n \
 						На задней крышке монолитного устройства видно, как новая гравировка: \"Синдикат\" \
 						перекрывает старую. Похоже старому оборудованию конкурента решили дать новую жизнь, \
 						скорее всего чтобы сэкономить.")
+
+/obj/machinery/photocopier/nanotrasen
+	name = "Nanotrasen photocopier"
+	desc = "Устройство для сканирования и печати важных документов. Они даже не пытаются скрыть, что это их собственность..."
+	faction = FACTION_NT
+	greyscale_colors = "#9b8b8b#e36161#5ab7b4"
+	ui_theme = "ntos"
+
+/obj/machinery/photocopier/nanotrasen/get_ru_names()
+	return list(
+		NOMINATIVE = "МФУ \"Нанотрейзен\"",
+		GENITIVE = "МФУ \"Нанотрейзен\"",
+		DATIVE = "МФУ \"Нанотрейзен\"",
+		ACCUSATIVE = "МФУ \"Нанотрейзен\"",
+		INSTRUMENTAL = "МФУ \"Нанотрейзен\"",
+		PREPOSITIONAL = "МФУ \"Нанотрейзен\"",
+	)
+
+/obj/machinery/photocopier/nanotrasen/examine_more(mob/user)
+	. = ..()
+	. += span_notice("Корпус МФУ блестит на свету, словно им ещё никто не пользовался, \
+						устройство выглядит тяжёлым и монолитным. На задней крышке корпуса \
+						виднеется гравировка производителя: Трейзен-Сервис\". Похоже, что \
+						нынче все офисные машины производит одна из дочерних компаний Нанотрейзен.")
 
 /obj/machinery/photocopier/Initialize(mapload)
 	. = ..()
@@ -660,33 +678,33 @@
 	paper.pixel_y = rand(-10, 10)
 	finish_copying()
 
-/obj/machinery/photocopier/attackby(obj/item/I, mob/user, params)
+/obj/machinery/photocopier/attackby(obj/item/item, mob/user, params)
 	if(user.a_intent == INTENT_HARM)
 		return ..()
 
-	if(istype(I, /obj/item/paper) || istype(I, /obj/item/photo) || istype(I, /obj/item/paper_bundle) || istype(I, /obj/item/craft_blueprints))
+	if(istype(item, /obj/item/paper) || istype(item, /obj/item/photo) || istype(item, /obj/item/paper_bundle) || istype(item, /obj/item/craft_blueprints))
 		add_fingerprint(user)
 		if(copyitem)
 			balloon_alert(user, "ксерокс занят!")
 			return ATTACK_CHAIN_PROCEED
-		if(!user.drop_transfer_item_to_loc(I, src))
+		if(!user.drop_transfer_item_to_loc(item, src))
 			return ..()
-		copyitem = I
-		to_chat(user, span_notice("Вы вставляете [I.declent_ru(ACCUSATIVE)] в [declent_ru(ACCUSATIVE)]."))
-		flick_overlay_view(mutable_appearance('icons/obj/library.dmi', "photocopier_scanning"), 1.5 SECONDS)
+		copyitem = item
+		to_chat(user, span_notice("Вы вставляете [item.declent_ru(ACCUSATIVE)] в [declent_ru(ACCUSATIVE)]."))
+		flick_overlay_view(mutable_appearance('icons/obj/library.dmi', "photocopier_scanning"), 1.8 SECONDS)
 		return ATTACK_CHAIN_BLOCKED_ALL
 
-	if(istype(I, /obj/item/toner))
+	if(istype(item, /obj/item/toner))
 		add_fingerprint(user)
-		var/obj/item/toner/toner = I
+		var/obj/item/toner/toner = item
 		if(src.toner > 10) //allow replacing when low toner is affecting the print darkness
 			balloon_alert(user, "тонер ещё полон!")
 			return ATTACK_CHAIN_PROCEED
-		if(!user.drop_transfer_item_to_loc(I, src))
+		if(!user.drop_transfer_item_to_loc(item, src))
 			return ..()
 		balloon_alert(user, "вставлено")
 		src.toner += toner.toner_amount
-		qdel(I)
+		qdel(item)
 		return ATTACK_CHAIN_BLOCKED_ALL
 
 	return ..()
@@ -781,3 +799,6 @@
 
 #undef PHOTOCOPIER_DELAY
 #undef MAX_COPIES_PRINTABLE
+#undef FACTION_NONE
+#undef FACTION_NT
+#undef FACTION_SYNDIE
