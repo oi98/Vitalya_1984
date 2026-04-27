@@ -297,6 +297,9 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
 
 	/// In tiles, how far this weapon can reach; 1 for adjacent, which is default
 	var/reach = 1
+	// optional world icon_state override
+	var/world_icon_file = 'icons/obj/inworld/items.dmi'
+	var/world_icon_state = null
 
 /obj/item/Initialize(mapload)
 	. = ..()
@@ -326,6 +329,7 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
 		determine_move_resist()
 
 	add_eatable_component()
+	update_world_icon()
 	scatter_item()
 
 /obj/item/proc/add_eatable_component()
@@ -711,6 +715,7 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
 		qdel(src)
 
 	item_flags &= ~IN_INVENTORY
+	update_world_icon()
 	mouse_opacity = initial(mouse_opacity)
 	remove_outline()
 
@@ -740,6 +745,7 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
  */
 /obj/item/proc/on_exit_storage(obj/item/storage/S as obj)
 	item_flags &= ~IN_STORAGE
+	update_world_icon()
 
 	do_drop_animation(S)
 
@@ -749,6 +755,7 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
  */
 /obj/item/proc/on_enter_storage(obj/item/storage/S as obj)
 	item_flags |= IN_STORAGE
+	update_world_icon()
 
 /**
  * Called to check if this item can be put into a storage item.
@@ -791,6 +798,7 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
 
 	mouse_opacity = MOUSE_OPACITY_OPAQUE
 	item_flags |= IN_INVENTORY
+	update_world_icon()
 
 	if(!initial && !(item_flags & ABSTRACT))
 		var/equip_sound = get_equip_sound()
@@ -1094,6 +1102,7 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
 		. = callback.Invoke()
 	throw_speed = initial(throw_speed) //explosions change this.
 	item_flags &= ~IN_INVENTORY
+	update_world_icon()
 
 /obj/item/proc/pwr_drain()
 	return FALSE // Process Kill
@@ -1530,3 +1539,14 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
 /obj/item/proc/on_tripwire_trigger(obj/item/tripwire/base, mob/user)
 	SIGNAL_HANDLER
 	return
+
+/obj/item/proc/update_world_icon()
+	if(!world_icon_state)
+		return
+
+	if(item_flags & (IN_INVENTORY|IN_STORAGE))
+		icon = initial(icon)
+		icon_state = initial(icon_state)
+	else
+		icon = world_icon_file
+		icon_state = world_icon_state
