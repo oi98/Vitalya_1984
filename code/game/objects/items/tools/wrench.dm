@@ -20,6 +20,7 @@
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 50, ACID = 30)
 	tool_behaviour = TOOL_WRENCH
 	toolbox_radial_menu_compatibility = TRUE
+	world_icon_state = "wrench"
 
 /obj/item/wrench/get_ru_names()
 	return list(

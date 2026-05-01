@@ -729,3 +729,13 @@
 	enable_message = "Теперь цвет интерфейса хранилища зависит от цвета инвентаря."
 	disable_message = "Теперь цвет интерфейса хранилища не зависит от цвета инвентаря."
 	blackbox_message = "Toggle storage colorfy"
+
+/datum/preference_toggle/toggle_inworld_sprites
+	name = "Отображать предметы в окружении"
+	description = "Меняет спрайты предметов в зависимости от их положения: в инвентаре или в мире."
+	preftoggle_bitflag = PREFTOGGLE_3_INWORLD_SPRITES
+	preftoggle_toggle = PREFTOGGLE_TOGGLE3
+	preftoggle_category = PREFTOGGLE_CATEGORY_GENERAL
+	enable_message = "Теперь предметы вне инвентаря будут выглядеть иначе."
+	disable_message = "Теперь предметы используют стандартные спрайты."
+	blackbox_message = "Toggle in-world sprites"

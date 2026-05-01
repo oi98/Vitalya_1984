@@ -1540,11 +1540,11 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/g
 	SIGNAL_HANDLER
 	return
 
-/obj/item/proc/update_world_icon()
+/obj/item/proc/update_world_icon(mob/living/user)
 	if(!world_icon_state)
 		return
 
-	if(item_flags & (IN_INVENTORY|IN_STORAGE))
+	if(item_flags & (IN_INVENTORY|IN_STORAGE) || !(user.client?.prefs.toggles3 & PREFTOGGLE_3_INWORLD_SPRITES))
 		icon = initial(icon)
 		icon_state = initial(icon_state)
 	else

@@ -11,6 +11,7 @@
 	lefthand_file = 'icons/mob/inhands/tools_lefthand.dmi'
 	item_state = "welder"
 	belt_icon = "welding_tool"
+	world_icon_state = "welder"
 	flags = CONDUCT
 	slot_flags = ITEM_SLOT_BELT
 	force = 3

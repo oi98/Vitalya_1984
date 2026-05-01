@@ -12,6 +12,7 @@
 	righthand_file = 'icons/mob/inhands/tools_righthand.dmi'
 	lefthand_file = 'icons/mob/inhands/tools_lefthand.dmi'
 	belt_icon = "multitool"
+	world_icon_state = "multitool"
 	flags = CONDUCT
 	force = 5.0
 	slot_flags = ITEM_SLOT_BELT
