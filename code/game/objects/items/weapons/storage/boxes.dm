@@ -140,7 +140,7 @@
 /obj/item/storage/box/flashes
 	name = "box of flashbulbs"
 	desc = "<b>WARNING: Flashes can cause serious eye damage, protective eyewear is required.</b>"
-	icon_state = "box_security"
+	icon_state = "box_flashes"
 	item_state = "sec"
 
 /obj/item/storage/box/flashes/populate_contents()
@@ -241,7 +241,7 @@
 /obj/item/storage/box/tapes
 	name = "Tape Box"
 	desc = "A box of spare recording tapes"
-	icon_state = "box_security"
+	icon_state = "box_tapes"
 	item_state = "sec"
 
 /obj/item/storage/box/tapes/populate_contents()
@@ -549,7 +549,7 @@
 /obj/item/storage/box/seccarts
 	name = "spare R.O.B.U.S.T. Cartridges"
 	desc = "A box full of R.O.B.U.S.T. Cartridges, used by Security."
-	icon_state = "box_security"
+	icon_state = "box_sec_carts"
 	item_state = "sec"
 
 /obj/item/storage/box/seccarts/populate_contents()
@@ -1075,7 +1075,7 @@
 /obj/item/storage/box/bola
 	name = "Energy bola box"
 	desc = "Бола для самых быстрых из быстрых"
-	icon_state = "box_security"
+	icon_state = "box_bola"
 	item_state = "sec"
 
 /obj/item/storage/box/bola/populate_contents()
@@ -1381,7 +1381,7 @@
  * Unica kit box
  */
 /obj/item/storage/box/unica_kit
-	icon_state = "box_hos"
+	icon_state = "box_unica"
 
 /obj/item/storage/box/unica_kit/populate_contents()
 	new /obj/item/gun/projectile/revolver/mateba(src)
