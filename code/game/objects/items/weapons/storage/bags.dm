@@ -77,6 +77,40 @@
 	storage_slots = 60
 	item_flags = NO_MAT_REDEMPTION
 
+/obj/item/storage/bag/trash/bluespace/cyborg
+
+/obj/item/storage/bag/trash/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	. = ..()
+	if(. & ITEM_INTERACT_ANY_BLOCKER)
+		return .
+	trashbag_interact(interacting_with, user)
+
+/obj/item/storage/bag/trash/proc/trashbag_interact(atom/target, mob/user)
+	var/turf/target_turf = get_turf(target)
+	var/success = FALSE
+	var/failure = FALSE
+	for(var/obj/item/item in target_turf)
+		if(item == src || item.anchored)
+			continue
+
+		if(!can_be_inserted(item, stop_messages = TRUE))
+			failure = TRUE
+			continue
+
+		success = TRUE
+		item.do_pickup_animation(user)
+		handle_item_insertion(item, prevent_warning = TRUE)
+
+	if(!success)
+		user.balloon_alert(user, "не удалось собрать!")
+		return
+
+	playsound(src, SFX_PICK_UP, 50, TRUE)
+	if(failure)
+		user.balloon_alert(user, "почти всё собрано!")
+		return
+	user.balloon_alert(user, "успешно собрано!")
+
 ////////////////////////////////////////
 // MARK:	Plastic bag
 ////////////////////////////////////////
@@ -742,6 +776,8 @@
 		var/mutable_appearance/item_copy = new(item)
 		item_copy.plane = FLOAT_PLANE
 		item_copy.layer = FLOAT_LAYER + 0.1
+		item_copy.pixel_x = 0
+		item_copy.pixel_y = 0
 		item_copy.pixel_w = rand(-3, 3)
 		item_copy.pixel_z = rand(-3, 3)
 		. += item_copy

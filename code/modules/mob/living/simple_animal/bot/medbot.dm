@@ -170,6 +170,11 @@
 	if(new_skin)
 		skin = new_skin
 	update_icon()
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_MEDBOT_MANIA) && is_station_level(z))
+		treatment_brute = "bicaridine"
+		treatment_fire = "kelotane"
+		treatment_oxy = "perfluorodecalin"
+		treatment_tox = "pen_acid"
 
 /mob/living/simple_animal/bot/medbot/bot_reset()
 	..()
@@ -292,10 +297,10 @@
 		add_fingerprint(user)
 		if(locked)
 			balloon_alert(user, "техпанель заблокирована!")
-			return ATTACK_CHAIN_PROCEED|ATTACK_CHAIN_NO_AFTERATTACK
+			return ATTACK_CHAIN_PROCEED_NO_AFTERATTACK
 		if(reagent_glass)
 			balloon_alert(user, "слот для ёмкости занят!")
-			return ATTACK_CHAIN_PROCEED|ATTACK_CHAIN_NO_AFTERATTACK
+			return ATTACK_CHAIN_PROCEED_NO_AFTERATTACK
 		if(!user.drop_transfer_item_to_loc(I, src))
 			return ..() | ATTACK_CHAIN_NO_AFTERATTACK
 		reagent_glass = I

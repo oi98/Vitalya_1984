@@ -11,7 +11,7 @@
 	righthand_file = 'icons/mob/inhands/implants_righthand.dmi'
 	abstract_type = /obj/item/organ/internal/cyberimp
 
-/obj/item/organ/internal/cyberimp/New(mob/M = null)
+/obj/item/organ/internal/cyberimp/Initialize(mapload, mob/M = null)
 	. = ..()
 	if(implant_overlay)
 		var/image/overlay = new /image(icon, implant_overlay)
@@ -467,7 +467,7 @@
 	implant_overlay = null
 	origin_tech = "materials=3;engineering=4"
 	slot = INTERNAL_ORGAN_CHEST_EXOFRAME
-	species_restrictions = list(SPECIES_MACNINEPERSON)
+	species_restrictions = list(SPECIES_MACHINEPERSON)
 	var/id = "EXO_DEFAULT"
 	var/given_health = 0
 	var/repair_time = 1 SECONDS

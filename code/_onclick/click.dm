@@ -72,6 +72,9 @@
 				return
 			MiddleShiftClickOn(A)
 			return
+		if(LAZYACCESS(modifiers, CTRL_CLICK))
+			CtrlMiddleClickOn(A)
+			return
 		MiddleClickOn(A)
 		return
 
@@ -113,7 +116,7 @@
 		return
 
 	if(ismecha(loc))
-		if(!locate(/turf) in list(A,A.loc)) // Prevents inventory from being drilled
+		if(!isturf(A) && !isturf(A.loc)) // Prevents inventory from being drilled
 			return
 		var/obj/mecha/M = loc
 		return M.click_action(A, src, modifiers)
@@ -473,6 +476,16 @@
 
 /mob/proc/TurfAdjacent(turf/tile)
 	return tile.Adjacent(src)
+
+/**
+ * Ctrl mouse wheel click
+ * Except for tagging datumns same as control click
+ */
+/mob/proc/CtrlMiddleClickOn(atom/A)
+	if(check_rights_for(client, R_ADMIN))
+		client.toggle_tag_datum(A)
+		return
+	CtrlClickOn(A)
 
 /**
  * Control+Shift click
